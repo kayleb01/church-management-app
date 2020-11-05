@@ -1,0 +1,22 @@
+.image-circle{
+    width: 45px;
+    height:45px;
+    border-radius: 20px;
+
+  }
+
+  .image-user{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    border: #ccc 2px solid;
+  }
+
+  #btn-bell{
+  
+    border: 1px #080808 solid;
+  }
+  .people{
+    margin-left: 60px;
+    margin-top: -45px;
+  }
