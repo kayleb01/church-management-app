@@ -1,12 +1,14 @@
+
+
 <p align="center"><Churh Management App</p>
 
 <p align="center">
-Built with Laravel and vuejs(front-end)
+    Built with Laravel and vuejs(front-end)
 </p>
 
 ## About This App
 
-This is a churn or orgainsation management app which is designed with the intention to easy manual management of organisations
+This is a church or orgainsation management app which is designed with the intention to easy manual management of organisations
 
 ## Laravel
 Laravel is accessible, powerful, and provides tools required for large, robust applications. 
