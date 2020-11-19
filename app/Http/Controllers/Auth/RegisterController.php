@@ -33,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/sales';
+    protected $redirectTo = '/registered';
 
     /**
      * Create a new controller instance.
@@ -54,9 +54,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'max:255|required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
+            'fname' => 'required',
+            'lname' =>'required',
+            'phonenum'   => 'required',
+
         ]);
     }
 
@@ -68,12 +71,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::Create([
-            'name' => $data['name'],
+        return  User::Create([
+            'ministry' => $data['ministry'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-            
+            'password' => Hash::make($data['password']),
+            'firstname' => $data['fname'],
+            'lastName' => $data['lname'],
+            'mobile_number' => $data['phonenum'],
+            'role' => 3,
         ]);
+     
     }
 
     /**
@@ -83,8 +90,8 @@ class RegisterController extends Controller
      * @param  \App\User                $user
      * @return void
      */
-    protected function registered(Request $request, $user)
+    protected function registered()
     {
-        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+    return view('auth.registered');
     }
 }

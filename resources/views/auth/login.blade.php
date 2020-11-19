@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Daimond Masjid') }}</title>
 
    
     <!-- Fonts -->
@@ -19,13 +19,20 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/skin-red-light.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <script>
+        window.App = {!! json_encode([
+            'csrfToken' => csrf_token(),
+            'user' => Auth::user(),
+            'signedIn' => Auth::check()
+        ]) !!};
+    </script>
 </head>
 <body class="skin-red-light sidebar-mini">
     <div id="app">
         <main class="py-4">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 rounded border border-secondary" style="background-color:#fff;">
+                <div class="row justify-content-center shadow rounded">
+                    <div class="col-md-8 rounded" style="background-color:#fff;">
                         <Login></Login>
                     </div>
                 </div>

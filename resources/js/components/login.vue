@@ -1,12 +1,12 @@
 <template  name="Login">
     <div class="mb-5">
-        <div class="container px-10 py-8 mt-5 ">
-            <div class="lead text-center m-3">COMPANY NAME</div>
+        <div class="container px-5 py-6 mt-5 ">
+            <div class="lead text-center m-3"><h3>DAIMOND MASJID</h3></div>
          <h2 class="lead align-text-center font-weight-bold">Login</h2>
             <form class="px-10 py-8" @submit.prevent="login" @keydown="feedback = ''">
                 <div class=" form-group mb-6">
-                    <label for="username" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 "></label>
-                    <input type="text" class="w-full p-2 leading-normal form-control" style="border-radius: 15px;" id="username" placeholder="Username" name="username" autocomplete="username" autofocus required v-model="form.username">
+                    <label for="email" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 "></label>
+                    <input type="text" class="w-full p-2 leading-normal form-control" style="border-radius: 15px;" id="email" placeholder="Email" name="email" autocomplete="email" autofocus required v-model="form.email">
                 </div>
 
                 <div class="form-group mb-6">
@@ -15,17 +15,19 @@
                 </div>
 
                  <div class="form-group mb-6">
-                    <input type="checkbox" class="" style="border-radius: 15px;" id="remember" name="remember" required v-model="form.remember">
+                    <input type="checkbox" class="" style="border-radius: 15px;" id="remember" name="remember"  v-model="form.remember">
                     <label for="remember" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 ">Remember</label>
                     <a href="/forgot" class="link font-weight-bold float-right">Fogot Password?</a>
                 </div>
 
-                <div class="flex justify-end items-center form-group">
+                <div class="flex justify-end items-center form-group mb-3">
                     <button type="submit" class="btn btn-outline-secondary btn-block border-secondary rounded-pill" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
                 </div>
-                 <div class="form-group mb-6  text-center">
-                   <span class="">New Church?</span> 
-                    <a href="#" class="btn btn-outline-primary btn-block border-primary rounded-pill mt-2">Sign Up Now</a>
+                 <div class="form-group mb-5  text-center">
+            
+                    <a href="/register" class="btn btn-outline-primary btn-block border-primary rounded-pill mt-2">Sign Up Now</a>
+
+                    <span>Don't have an acscount yet? <a href="/register">Register</a></span>
                 </div>
                 <div class="mt-6  p-2" v-if="feedback">
                     <span class="text-xs text-danger" v-text="feedback"></span>

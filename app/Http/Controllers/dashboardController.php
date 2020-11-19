@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Note;
 class dashboardController extends Controller
 {
 
-public function index(){
-    return view('dashboard.dashboard');
-}
-public function people()
+
+public function index()
 {
-	return view('dashboard.people');
+	return view('dashboard.dashboard');
 }
 
 public function userNew()

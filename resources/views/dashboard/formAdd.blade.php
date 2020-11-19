@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.base')
 @section('content')
 <div style="min-height: 822px;" class="content-wrapper">
   <section class="content-header">

@@ -8,9 +8,37 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
+import {Tabs, Tab} from 'vue-tabs-component';
+import FlashMessage from '@smartweb/vue-flash-message';
+import { Form, HasError, AlertError } from 'vform';
+
+const Toast = Swal.mixin({
+    toast:true,
+    position: 'top-end',
+    timer: 3000,
+    timerProgressBar: true
+
+})
+
+window.Toast = Toast;
+
+
+Vue.use(FlashMessage);
+
+
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+Vue.component('tabs', Tabs);
+Vue.component('tab', Tab);
 /**
+ * 
  * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
+ * Vue components. It will recursively scan this directory for the Vue  
  * components and automatically register them with their "basename".
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>

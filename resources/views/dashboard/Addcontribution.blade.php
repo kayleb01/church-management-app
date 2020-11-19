@@ -1,84 +1,93 @@
-@extends('layouts.app')
+@extends('layouts.base')
 @section('content')
 <div style="min-height: 822px;" class="content-wrapper">
-  <section class="content-header">
-    <h1><i class="fa fa-dashboard"></i> Add Form</h1>
-      
-<section class="content">
-    <div class="box">
-        <div class="box-body padding">
-			<form method="POST" class="form-horizontal" action="{{url('admin/store')}}" enctype="multipart/form-data">
-                {{csrf_field()}}
-                <input name="_method" value="PUT" type="hidden">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="people">Form Name<i class="text-danger">*</i></label>
-                <div class="">
-                  <input type="text" name="name" class="form-control">
-                </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="user">Responsible<i class="text-danger">*</i></label>
-                    <div class="">
-                        <select name="user" class="form-control">
-                          <option value="1">Caleb Bala</option>
-                      </select>
+    <section class="content-header">
+        <h1><i class="fa fa-dashboard"></i> Add Contribution</h1>
+    </section>
+        <section class="content">
+            <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body padding">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch mt-3">
+                                        <input type="checkbox" class="custom-control-input" id="eve" @click="showEve()">
+                                        <label class="custom-control-label" for="eve"> <h5> Anonymous</h5></label>
+                                    </div>
+                                    <input type="text" class="form-control" name="people_id" id="people_id" v-model="people_id" placeholder="Add Person">
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body padding">
+                                <div class="form-group">
+                                <label for="batch_id">Batch</label>
+                                    <select class="form-control" name="batch_id" id="batch_id" v-model="batch_id">
+                                    <option value="" disabled>Select</option>
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                        <label class="col-sm-2 control-label" for="date">Follow up Date<i class="text-danger">*</i></label>
-                    <div class="">
-                        <input name="date" id="date" class="form-control mb-3" type="text" required>
+                    <div class="col-md-8 col-sm-8 col-lg-8">
+                        <div class="card">
+                                <div class="card-body padding">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-switch mt-3">
+                                            <input type="checkbox" class="custom-control-input" id="mfunds" @click="showEve()">
+                                            <label class="custom-control-label" for="mfunds"> <h5> Add Multiple funds</h5></label>
+                                        </div>
+                                        <div class="row no-gutter">
+                                            <div class="col-md-3 col-3">
+                                                <label for="amount">Amount<i class="text-danger">*</i></label>
+                                                <input type="number" class="form-control" name="amount" id="amount" v-model="amount">
+                                            </div>
+                                            <div class="col-md-5 col-5">
+                                            <label for="funds">Funds<i class="text-danger">*</i></label>
+                                                <select name="funds" id="funds" class="form-control" v-model="funds">
+                                                    <option value="" disabled>Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                       
+                                        
+                                    </div>
+                                
+                                </div>
+                            </div> 
+                        </div>
+                    <div class="col-md-12">
+                    <!-- <div class="row"> -->
+                        <!-- <div class="card">
+                            <div class="card-body"> -->
+                                <div class="col-md-6 col-6">
+                                    <div class="form-group">
+                                        <label for="date">Data</label>
+                                        <select class="form-control" name="date" id="date" v-model="date">
+                                        <option value="" disabled>Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-6 float-right">
+                                    <div class="form-group">
+                                        <label for="date">Data</label>
+                                        <select class="form-control" name="date" id="date" v-model="date">
+                                        <option value="" disabled>Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <!-- </div>
+                        </div> -->
+                   <!--  </div> -->
+                        
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="email">Type</label>
-                <div class="">
-                    <select name="people" class="form-control">
-                      <option value="1">Visit</option>
-                      <option value="2">Phone</option>
-                      <option value="3">Message</option>
-                  </select>
-                </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="from">From <i class="text-danger"></i></label>
-                <div class="">
-                    <input type="time" name="from" class="form-control" required>
-                </div>
-                </div>
-                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="to">To <i class="text-danger"></i></label>
-                <div class="">
-                    <input type="time" name="to" class="form-control" required>
-                </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="address">Action</label>
-                    <div class="col-md-8">
-                        <select name="action" id="action" required>
-                            <option>Care</option>
-                            <option>Teach</option>
-                        </select> 
-                        <a href="#"><i class="fa fa-cog"></i></a>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input name="done" type="checkbox">
-                    <label class="control-label" for="done">Done</label>
-                </div>
-                <div class="form-group">
-                   <label class="col-sm-2 control-label" for="zipcode">Notes</label>
-                    <div class="">
-                        <input type="text" name="zipcode"  class="form-control">
-                    </div>
-                </div>               
-                <div class="clearfix"></div>
-                <div class="form-group" style="padding: 10px;">
-                    <button type="submit" class="btn btn-secondary rounded-pill btn-block">Add</button>
-                </div>
-				</form>
-				</div>
- 			</div>
+                    
+
+               
+            </div>
+            
 		</section>
 	</div>
 </div>

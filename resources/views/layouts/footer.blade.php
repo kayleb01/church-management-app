@@ -1,12 +1,10 @@
+<!-- Main Footer -->
 <footer class="main-footer">
-    <div class="container">
-        <div class="hidden-xs">
-            <center>&copy; <?=date('Y')?></center>
-        </div>
-    </div>
-</footer>
-</div> 
- <script src="{{url('js/scripts.js')}}"></script>
- <script src="{{url('js/jquery-2.2.3.js')}}"></script>
+    <strong>Copyright &copy; 2020 
+  </footer>
+  </div>
+<!-- ./wrapper -->
+<!-- scripts -->
+<script src="{{url('js/app.js')}}"></script>
 </body>
 </html>

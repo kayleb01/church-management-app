@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.base')
 
 @section('content')
 <div style="min-height: 822px;" class="content-wrapper">
@@ -7,17 +7,5 @@
     		<Addevent></Addevent>
   		</section>
   	</div>
-	<section class="content">
-		<div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Upcoming events in 30 days</h3> <span><a href="#" class="pull-right link">View all</a></span>
-            </div>
-            <div class="box-body">
-                <p>
-            
-                </p>
-            </div>
-        </div>
-    </section>
 </div>
 @endsection

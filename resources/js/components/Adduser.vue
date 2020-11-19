@@ -1,101 +1,237 @@
 <template name="Adduser">
     <div>
-        <a href="#" class="btn btn-secondary rounded-pill py-2 px-4 pull-right mb-3 " @click.prevent="$modal.show('Adduser')">Add <i class="fa fa-plus"></i></a>
+        <FlashMessage></FlashMessage>
+        <a href="#" class="btn btn-secondary rounded-pill py-2 px-4 pull-right mb-3"@click.prevent="newModal">Add <i class="fa fa-plus"></i></a>
         <h3><i class="fa fa-dashboard mt-3"></i>User</h3>
-        <modal :adaptive="true" height="auto" transition="slide" name="Adduser" scrollable="true">
-            
-            <div class=""><button class="btn btn-flat" @click="$modal.hide('Adduser')"> <i class="fa fa-arrow-left"></i></button></div>
+        <div class="dropdown">
+				<button class="btn btn-outline-secondary dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Bulk Action
+				</button>
+				<div class="dropdown-menu" aria-labelledby="bulk">
+					<a class="dropdown-item text-danger" href="#">Delete</a>
+				</div>
+		</div>
+			<div class="card">
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+						<th><input type="checkbox" name="check" id="check"></th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Mobile Number</th>
+                      <th>Role</th>
+					  <th>Last access</th>
+					  <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     
+                    <tr v-for="user in users" :key="user.id">
+						<td> <input type="checkbox" name="mark" id="mark"></td>
+                      <td>
+						<a :href="'/u/'+ user.id">  <img src="/storage/face-1.jpg" alt="" class="image-circle">{{user.firstname}} {{user.lastName}}</a>
+					  </td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.mobile_number}}</td>
+                      <td>
+					    <span v-if="user.role === 1">Member</span>
+                        <span  v-else-if="user.role === 2">Admin</span>
+                        <span v-else>Owner</span>
+					  </td>
+					<td>{{user.updated_at}}</td>
+					  <td><button class="btn btn-flat"@click.prevent="editModal(user)"> <i class="fa fa-edit"></i></button> | <button class="btn btn-flat" @click.prevent="destroy(user.id)"><i class="fa fa-trash"></i></button></td>
+					</tr>
+				 
+                  </tbody>
+                </table>
+              </div>
+			</div>
+        <div class="modal slide" id="add-user">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span v-if="editmode === false "> Add user</span>
+                            <span v-else>Update User</span>
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
             <section class="content">
                 <div class="box">
                     <div class="box-body">
-                        <form method="POST" class="form-horizontal" @submit.prevent="Adduser()">
-                                <input name="_method" value="PUT" type="hidden">
+                        <form class="form-horizontal" @submit.prevent="editmode ? updateUser(user) : Adduser()">
                                 <div class="form-group">
                                     <label class="col-sm-6 control-label" for="role">Role</label>
                                     <div class="">
-                                    <select name="role" id="role" class="form-control" v-model="form.role">
-                                        <option value="1">Member</option>
+                                    <select name="role" id="role" class="form-control" v-model="form.role" :class="{ 'is-invalid': form.errors.has('role') }">
                                         <option value="2">Admin</option>
-                                        <option value="3">Owner</option>
                                     </select>
+                                    <has-error :form="form" field="role"></has-error>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-6 control-label" for="email">Email</label>
                                     <div class="">
-                                        <input name="email" id="email" placeholder="Mail@mail.com" class="form-control mb-3" type="email" required v-model="form.email">
+                                        <input name="email" id="email" placeholder="Mail@mail.com" class="form-control mb-3" type="email" required v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }">
                                     </div>
+                                    <has-error :form="form" field="email"></has-error>
                                 </div>
                                 <div class="form-group">
                                         <label class="col-sm-6 control-label" for="fname">First name</label>
                                         <div class="">
-                                        <input name="fname" id="fname" placeholder="First name" class="form-control mb-3" type="text" required v-model="form.fname">
+                                        <input name="firstname" id="fname" placeholder="First name" class="form-control mb-3" type="text" required v-model="form.firstname" :class="{ 'is-invalid': form.errors.has('firstname') }">
                                         </div>
+                                        <has-error :form="form" field="firstname"></has-error>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="lname">Last name</label>
                                         <div class="">
-                                            <input name="lname" id="lname" placeholder="Last name" class="form-control mb-3" type="text" required v-model="form.lname">
+                                            <input name="lastName" id="lname" placeholder="Last name" class="form-control mb-3" type="text" required v-model="form.lastName" :class="{ 'is-invalid': form.errors.has('lastName') }">
                                         </div>
+                                        <has-error :form="form" field="lname"></has-error>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="tel">Mobile Phone</label>
                                         <div class="">
-                                            <input name="tel" id="tel" placeholder="000 000 0000" class="form-control mb-3" type="tel" required v-model="form.tel">
+                                            <input name="mobile_number" id="tel" placeholder="000 000 0000" class="form-control mb-3" type="tel" required v-model="form.mobile_number" :class="{ 'is-invalid': form.errors.has('mobile_number') }">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="password">Password</label>
                                         <div class="">
-                                            <input  name="password" id="password" placeholder="*********" class="form-control" type="password" required v-model="form.password">
+                                            <input  name="password" id="password" placeholder="password" class="form-control" type="password"  v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }">
                                         </div>
+                                        <has-error :form="form" field="password"></has-error>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="password">Re-Password</label>
+                                        <div class="">
+                                            <input  name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" class="form-control" type="password"  v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }">
+                                        </div>
+                                        <has-error :form="form" field="password_confirmation"></has-error>
                                     </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-secondary border border-secondary rounded-pill btn-block" value="Save">
+                                    <input type="submit" class="btn btn-secondary border border-secondary rounded-pill btn-block" :class="loading ? 'loader' : ''" :disabled="loading" value="Save">
+                                </div>
+                                <div class="mt-6  p-2" v-if="feedback">
+                                    <span class="text-xs text-danger" v-text="feedback"></span>
                                 </div>
                         </form>
                     </div>
                 </div>
             </section>
-        </modal>
-    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>
 </template>
 <script>
+
+import collection from "../mixins/collection";
 export default{
+ mixins: [collection],
+
     data(){
         return {
-            form: {},
+            editmode: false,
+            users: {},
+             form: new Form({
+                 id: '',
+                role: '',
+                email:'',
+                firstname: '',
+                lastName: '',
+                mobile_number:'',
+                password: '',
+                password_confirmation:''
+      }),
             feedback: "",
-            loading: false
+            loading: false,
         };
     },
+    created() {
+       this.fetch();
+    },
     methods: {
-        show () {
-            this.$modal.show('Adduser');
+        newModal(){
+            this.form.reset();
+            $('#add-user').modal('show');
         },
-        hide () {
-            this.$modal.hide('Adduser');
-        },
-        addGroup() {
-            this.loading = true;
 
-            axios
-                .post("/", this.form, {
-                    headers:{
-                        'Content-Type':'application/json',
-                        'Accept':'application/json'
-                    }
+        editModal(user){
+            this.editmode = true;
+            this.form.reset();
+            $('#add-user').modal('show');
+            this.form.fill(user);
+        },
+
+        Adduser() {
+            this.loading = true;
+            this.form.post("/admin/adduser")
+            .then(() => {
+                this.flashMessage.info({
+                title: 'User',
+                message: 'User Added successfully!'
                 })
-                .then(({data: { redirect }}) => {
-                    location.assign(redirect);
-                })
-                .catch(error => {
-                    this.feedback =
-                        "The given credentials are incorrect. Please try again.";
+            })
+            .catch(error => {
+                    this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                     this.loading = false;
                 });
+
+            $('#add-user').modal('hide');
+             this.fetch();
+                
+            this.flashMessage.info({
+            title: 'User',
+            message: 'User added successfully!'
+        });
+                this.loading = false;
+        },
+        
+        updateUser(user){
+            this.loading = true;
+            this.form.patch(`/admin/${this.form.id}/adduser`)
+            .then(() => {
+                this.flashMessage.info({
+                title: 'User',
+                message: 'User updated  successfully!'
+                })
+            })
+            .catch(error => {
+                        this.flashMessage.error({error:"An Internal Error occured, please try again later"});
+                    });
+            $('#add-user').modal('hide');
+            this.fetch();
         },
 
+        fetch() {
+            axios.get(this.url()).then(({data}) => this.users = data.data);
+        },
+
+        url() {
+            return "/userdata";
+        },
+         destroy(id){
+             if (confirm("Are you sure? cannot be undone")) {
+                 axios
+                .delete("/user/" + id);
+                this.$emit("destroyed", id); 
+                    this.flashMessage.info({
+                        title: 'User Delete',
+                        message: 'User deleted successfully!'
+                    });
+              
+               this.fetch();
+             }
+            
+        },
     }
 }
 </script>

@@ -20,3 +20,10 @@
     margin-left: 60px;
     margin-top: -45px;
   }
+
+  .pane{
+    background-image: url('/storage/asset.svg') ;
+    background-repeat: no-repeat;
+    width:50em;
+    height: 40em;
+  }
