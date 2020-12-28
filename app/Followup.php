@@ -29,4 +29,9 @@ class Followup extends Model
     // {
     //     return Verta($value)->format('%d %B %Y');
     // }
+
+    public function setFirstNameAttribute($value)
+    {
+        return ucwords($value);
+    }
 }

@@ -14,6 +14,7 @@ window.Swal = Swal;
 import {Tabs, Tab} from 'vue-tabs-component';
 import FlashMessage from '@smartweb/vue-flash-message';
 import { Form, HasError, AlertError } from 'vform';
+import 'admin-lte/plugins/select2/js/select2.full.min.js';
 
 const Toast = Swal.mixin({
     toast:true,
@@ -28,13 +29,22 @@ window.Toast = Toast;
 
 Vue.use(FlashMessage);
 
-
+$('select2').select2();
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.component('tabs', Tabs);
 Vue.component('tab', Tab);
+
+// Vue.filter('formatTime', function(value){
+//     if(value){
+//         const part = value.split(":");
+//         return 24 - (+part[0]) + (60 - (+part[1]));
+//     }else{
+//         return "unknown"
+//     }
+// });
 /**
  * 
  * The following block of code may be used to automatically register your

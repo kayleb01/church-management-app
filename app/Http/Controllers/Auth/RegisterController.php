@@ -59,6 +59,7 @@ class RegisterController extends Controller
             'fname' => 'required',
             'lname' =>'required',
             'phonenum'   => 'required',
+            'ministry'  => 'required|unique:ministries'
 
         ]);
     }
@@ -92,6 +93,6 @@ class RegisterController extends Controller
      */
     protected function registered()
     {
-    return view('auth.registered');
+    //
     }
 }

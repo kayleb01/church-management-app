@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'DaimondMasjis') }}</title>
 
    
     <!-- Fonts -->
@@ -37,7 +37,7 @@
                       <div class=" d-flex justify-content-center text-center" >
                         <h1 class="font-weight-bolder mt-5 m-5">Registration Successful <br>
                             <a href="/login" class="link"> Click here</a> to Login
-                        </h1> <img src="{{url('/strorage/success-green.png')}}" width="10%" alt="">
+                        </h1> <img src="{{url('/storage/success-green.png')}}" width="10%" alt="">
                       </div>
                     </div>
                 </div>

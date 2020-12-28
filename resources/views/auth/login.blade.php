@@ -19,6 +19,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/skin-red-light.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <script>
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -27,15 +28,11 @@
         ]) !!};
     </script>
 </head>
-<body class="skin-red-light sidebar-mini">
+<body class="hold-transition login-page ">
     <div id="app">
         <main class="py-4">
-            <div class="container">
-                <div class="row justify-content-center shadow rounded">
-                    <div class="col-md-8 rounded" style="background-color:#fff;">
-                        <Login></Login>
-                    </div>
-                </div>
+            <div class="">
+                <Login></Login>
             </div>
         </main>
     </div>

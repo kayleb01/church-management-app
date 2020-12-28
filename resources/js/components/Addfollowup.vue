@@ -6,7 +6,10 @@
                     <FlashMessage></FlashMessage>
 			<div class="card">
               <div class="card-body table-responsive p-0" style="height: 300px;">
-                <table class="table table-head-fixed text-nowrap">
+                   <table v-if="user.confirmed != 1" class="table table-striped">
+                       <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                  </table>
+                <table class="table table-head-fixed text-nowrap" v-else>
                   <thead>
                     <tr>
                       <th>Name</th>

@@ -20,7 +20,7 @@
           @guest
           <h5>Please <a href="/login">login</a> or <a href="/register">register</a>  to use the full features of this app </h5>
           @else
-          <span class="font-weight-bold lead"> <i class="fa fa-user-circle-o fa-lg"></i> {{Auth::user()->ministry}} </span>
+          <span class="font-weight-bold lead"> <i class="fa fa-user-circle-o fa-lg"></i> {{Auth::user()->ministrys->name}} </span>
           @endguest
         </div>
       </div>
@@ -87,14 +87,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="/forms" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
               <p>
                 Forms
               </p>
             </a>
-          </li>
+          </li> -->
           </li>
           <li class="nav-item">
             <a href="/report" class="nav-link">
@@ -126,21 +126,27 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="/contribution/batches" class="nav-link">
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Batches</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/funds" class="nav-link">
-                  <i class="fa fa-circle nav-icon"></i>
+                  <i class="fa fa-money nav-icon"></i>
                   <p>Funds</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-money nav-icon"></i>
                   <p>payment</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/payment/method" class="nav-link">
+                  <i class="fa fa-money nav-icon"></i>
+                  <p>Payment Methods</p>
                 </a>
               </li>
             </ul>
@@ -155,33 +161,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/view/contribution" class="nav-link">
+                <a href="/settings/password" class="nav-link">
                   <i class="fa fa-user nav-icon"></i>
-                  <p>Change PAssword</p>
+                  <p>Change Password</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="/settings/account" class="nav-link">
                   <i class="fa fa-money nav-icon"></i>
                   <p>Account Settings</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
-                  <i class="fa fa-circle nav-icon"></i>
-                  <p>Profile Fields</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/funds" class="nav-link">
-                  <i class="fa fa-circle nav-icon"></i>
-                  <p>Integration</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
-                  <i class="fa fa-money nav-icon"></i>
-                  <p>Notification Settings</p>
                 </a>
               </li>
             </ul>
@@ -196,31 +184,31 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/view/contribution" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-user nav-icon"></i>
                   <p>Import People</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-money nav-icon"></i>
                   <p>Import contact</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Import Attendance</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/funds" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Import Giving</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/new/contribution" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fa fa-money nav-icon"></i>
                   <p>Merge People</p>
                 </a>

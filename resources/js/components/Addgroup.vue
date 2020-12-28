@@ -11,7 +11,10 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body p-0">
-                <table class="table table-sm">
+                   <table v-if="user.confirmed != 1" class="table table-striped">
+                       <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                  </table>
+                <table class="table table-sm" v-else>
                   <tbody v-if="groups !=''">
                     <tr v-for="group in groups" :key="group.id">
                         <td class="leading">
@@ -180,15 +183,19 @@ export default{
             return `/groups`;
         },
          destroy(id){
-            axios
-                .delete("/group/" + id);
-                this.$emit("destroyed", id); 
-                    this.flashMessage.info({
-                        title: 'Group Delete',
-                        message: 'Group deleted successfully!'
-                    });
-              
-               this.fetch();
+            if(confirm("Are you sure?, this cannot be undone")){
+
+                axios
+                    .delete("/group/" + id);
+                    this.$emit("destroyed", id); 
+                        this.flashMessage.info({
+                            title: 'Group Delete',
+                            message: 'Group deleted successfully!'
+                        });
+                
+                this.fetch();
+
+            }
         },
     }
 }

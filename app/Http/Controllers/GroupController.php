@@ -17,7 +17,7 @@ class GroupController extends Controller
     public function index()
     {
             //get all the users and use them as Leaders in groups
-        $users = User::where('ministry', auth()->user()->ministry)->get();
+        $users = User::where('ministry', auth()->user()->ministrys->id)->get();
         return view('dashboard.group', compact('users'));
     }
 
@@ -37,7 +37,7 @@ class GroupController extends Controller
 
         return  Group::create([
             'group_name'  => request('group_name'),
-            'ministry'    => auth()->user()->ministry,
+            'ministry'    => auth()->user()->ministrys->id,
             'user_id'     => request('user_id'),
             'description' => request('description')
         ]);
@@ -51,7 +51,7 @@ class GroupController extends Controller
      */
     public function show()
     {
-        return Group::where('ministry', auth()->user()->ministry)->paginate(20);
+        return Group::where('ministry', auth()->user()->ministrys->id)->paginate(20);
     }
 
     /**

@@ -1,42 +1,32 @@
 <template name="Addevent">
     <div>
         <h1><i class="fa fa-dashboard"></i> Events</h1>
-    		<button class="btn btn-secondary rounded-pill py-2 px-4 m-3" @click.prevent="showModal">Add Event</button>
+    		<button class="btn btn-outline-secondary rounded py-2 px-4 m-3" @click.prevent="showModal">Add Event</button>
             <section class="content">
-                <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Events</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <table class="table table-sm">
-                  <tbody>
-                    <tr>
-                      <td>1.</td>
-                      <td>Update software</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" style="width: 65%"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="callout callout-warning">
+                             <table v-if="user.confirmed !== 1" class="table table-striped">
+                                <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                            </table>
+                            <table class="table table-bordered" v-else>
+                                <tbody>
+                                    <tr v-for="event in events" :key="event.id">
+                                        <td > <a href="#" class="link"><b>{{event.title}}</b></a> </td>
+                                        <td><b>On {{createDate(event.event_date)}}</b><br>  From {{(event.from)}} To {{(event.to)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                      </td>
-                      <td><span class="badge bg-danger">55%</span></td>
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-
-
-            </section>
-            
+                    </div>
+                </div>
+            </section> 
         <div class="modal" id="add-event">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                          <h4 class="modal-title">
-                            <span v-if="editmode === false "> Add Event</span>
+                            <span v-if="editmode === false"> Add Event</span>
                             <span v-else>Update Event</span>
                         </h4>
                         <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
@@ -109,12 +99,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <div class="form-group">
-                                                <label for="calendar">Calendar <i class="text-danger">*</i></label>
-                                                <select name="calendar" id="calendar" class="form-control" v-model="form.calendar">
-                                                    <option value="meeting">Meeting</option>
-                                                </select>
-                                            </div>
                                     </div>
                                     <div class="row col-md-12">
                                         <div class="col-md-3">
@@ -134,64 +118,68 @@
                                             </select>
                                         </div>
                                     </div> <!-- End of rowcol-md-12 -->
-                                    <hr>
-                                    <div class=" col-md-12 m-3">
+                                    
+                                    <div class="col-md-12 ">
                                             <div class="custom-control custom-switch mt-3">
                                                 <input type="checkbox" class="custom-control-input" id="eve" @click="showEve()">
                                                 <label class="custom-control-label" for="eve"> <h5> Event Repeat</h5></label>
                                             </div>
                                             <span v-show="eve">
                                             <div class="col-md-6 mb-2">
-                                                <select class="form-control" name="repeat" v-model="form.repeat">
-                                                    <option value="1">Daily</option>
-                                                    <option value="2">Weekly</option>
+                                                <select class="form-control" @change="option($value)" name="repeat" v-model="form.repeat">
+                                                    <option selected value="daily">Daily</option>
+                                                    <option value="weekly">Weekly</option>
+                                                    <option value="weelytw">Every 2 Weeks</option>
+                                                    <option value="monthly">Monthly</option>
                                                 </select>
                                             </div>
-                                            <h5>Every <i class="text-danger">*</i></h5>
-                                            <div class="col-md-3">
-                                                <input class="" type="checkbox" name="monday" v-model="form.monday">
-                                                <label for="monday">Monday</label>
+                                            <div v-show="weeklycheck">
+                                                <h5>Every <i class="text-danger">*</i></h5>
+                                                <div class="col-md-3">
+                                                    <input class="" type="checkbox" name="monday" v-model="form.monday">
+                                                    <label for="monday">Monday</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="" type="checkbox" name="tuesday" v-model="form.tuesday">
+                                                    <label for="tuesday">Tuesday</label>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input class="" type="checkbox" name="wednesday" v-model="form.wednesday">
+                                                    <label for="wednesday">Wednesday</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="" type="checkbox" name="thursday" v-model="form.thursday">
+                                                    <label for="thursday">Thursday</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="" type="checkbox" name="friday" v-model="form.friday">
+                                                    <label for="friday">Friday</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="" type="checkbox" name="saturday" v-model="form.saturday">
+                                                    <label for="saturday">Saturday</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="" type="checkbox" name="sunday" v-model="form.sunday">
+                                                    <label for="sunday">Sunday</label>
+                                                </div>
+                                                <div class="col-md-6 mt-2">
+                                                    <input class="" type="checkbox" name="end">
+                                                    <label for="end">The end date of the repeat</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="date" name="end_date" v-model="form.end_date">
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input class="" type="checkbox" name="tuesday" v-model="form.tuesday">
-                                                <label for="tuesday">Tuesday</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input class="" type="checkbox" name="wednesday" v-model="form.wednesday">
-                                                <label for="wednesday">Wednesday</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="" type="checkbox" name="thursday" v-model="form.thursday">
-                                                <label for="thursday">Thursday</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="" type="checkbox" name="friday" v-model="form.friday">
-                                                <label for="friday">Friday</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="" type="checkbox" name="saturday" v-model="form.saturday">
-                                                <label for="saturday">Saturday</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="" type="checkbox" name="sunday" v-model="form.sunday">
-                                                <label for="sunday">Sunday</label>
-                                            </div>
-                                            <div class="col-md-6 mt-2">
-                                                <input class="" type="checkbox" name="end">
-                                                <label for="end">The end date of the repeat</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="date" name="end_date" v-model="form.end_date">
-                                            </div>
+                                            
                                             </span>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-2">
                                             <div class="form-group">
                                                 <button type="submit" class="rounded-pill btn btn-outline-secondary btn-block">Save</button>
                                             </div>
                                         </div>
-                                        
-                                       
+        
                                     </div> <!-- End of ROW -->
 			                </form>
                              <sessions></sessions>        
@@ -204,10 +192,13 @@
     </div>
 </template>
 <script>
+ import  moment  from "moment";
 export default{
+   
     data(){
         return {
             form: new Form({
+                id:'',
                 title:'',
                 event_date:'',
                 from:'',
@@ -235,16 +226,45 @@ export default{
             eve:true,
             feedback: "",
             loading: false,
-            editmode:false
+            editmode:false, 
+            events:'',
+            dailycheck:false,
+            weeklycheck:false,
+            weeklytwcheck:false,
+            monthlycheck:false,
+
         };
     },
+    created(){
+        this.fetch();
+    },
     methods:{
+       option(){
+           if(this.form.repeat == 'daily'){
+                this.dailycheck = !this.dailycheck; 
+           }
+            if(this.form.repeat == 'weekly'){
+                this.weeklycheck = !this.weeklycheck;
+           }
+             if(this.form.repeat == 'weelytw'){
+                this.weeklytwcheck = !this.weeklytwcheck;
+           }
+            if(this.form.repeat = 'monthly'){
+             this.monthlycheck = !this.monthlycheck;
+             }
+        },
+        createDate(date){
+            return moment(date).format('MMMM Do YYYY')
+        },
+
+        createTime(time){
+            return moment(time).format('h m a')
+        },
         updateEvent(){
             this.loading = true;
             this.form.patch(`/event/${this.form.id}/edit`)
             .then(() => {
                 this.flashMessage.info({
-                title: 'Event Info',
                 message: 'Event updated successfully!'
                 });
                  $('#add-event').modal('hide');
@@ -256,16 +276,16 @@ export default{
            
         },
 
-            toggleReg(){
-                this.check = !this.check;
-            },
+        toggleReg(){
+            this.check = !this.check;
+        },
 
-            showImg(){
-                this.checkImg =  !this.checkImg;
-            },
-            showEve(){
-                this.eve = !this.eve;
-            },
+        showImg(){
+            this.checkImg =  !this.checkImg;
+        },
+        showEve(){
+            this.eve = !this.eve;
+        },
         editModal(data){
             this.editmode = true;
             this.form.reset();
@@ -285,7 +305,7 @@ export default{
 
                 $('#add-event').modal('hide');
                 this.fetch();
-
+                 this.loading = false;
                 this.flashMessage.info({
                 title: 'Event Info',
                 message: 'Event created successfully!'
@@ -301,11 +321,11 @@ export default{
         },
 
         fetch() {
-                axios.get(this.url()).then(({data}) => this.peoples = data.data);
+                axios.get(this.url()).then(({data}) => this.events = data.data);
              },
 
         url() {
-            return `/events`;
+            return `/event`;
         },
 
          destroy(id){

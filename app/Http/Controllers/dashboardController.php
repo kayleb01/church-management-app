@@ -4,13 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Note;
+use App\People;
+use App\Followup;
+use App\Event;
+use App\Group;
+
+
 class dashboardController extends Controller
 {
 
 
 public function index()
-{
-	return view('dashboard.dashboard');
+{		//get the total number of people under the ministry of the loggedIn user
+	$people = People::where('ministry', auth()->user()->ministrys->id)->get();
+	$people = count($people);
+
+	$group = Group::where('ministry', auth()->user()->ministrys->id)->get();
+	$group = count($group);
+	 
+	$date = now();
+	$people_birth = People::where('ministry', auth()->user()->ministrys->id)
+					->whereMonth('date_of_birth', '=', $date->month)
+					->orWhere(function($query)use($date){
+						$query->whereDay('date_of_birth', '=', $date->day)
+						->whereDay('date_of_birth', '=', $date->day);
+					})->orderByRaw("DAYOFMONTH('date_of_birth')", 'ASC')
+					->get();
+
+	$followups = Followup::where('ministry', auth()->user()->ministrys->id)
+							->where('status', '=', NULL)
+							->where('user_id', '=', auth()->user()->id)
+							->WhereMonth('date', '=', $date->month)
+							->get();
+
+	return view('dashboard.dashboard', compact('people', 'group', 'people_birth', 'followups'));
 }
 
 public function userNew()

@@ -37,6 +37,10 @@ class adminUserController extends Controller
         ]);
     }
 
+    public function registered()
+    {
+        return view('auth.registered');
+    }
     /**
      * Create a new user instance after a valid registration.
      *
@@ -52,14 +56,14 @@ class adminUserController extends Controller
             'lastName'  => request('lastName'),
             'mobile_number' => request('mobile_number'),
             'role'          => request('role'),
-            'ministry'      => Auth::user()->ministry,
+            'ministry'      => Auth::user()->ministrys->id,
         ]);
      }
 
     //  Get all the users under this ministry
     public function index()
     { 
-        $users = User::where('ministry', auth()->user()->ministry)->paginate(20);
+        $users = User::where('ministry', auth()->user()->ministrys->id)->paginate(20);
         //Return the view
         return $users;
     }
@@ -97,20 +101,26 @@ class adminUserController extends Controller
         'role'          => 'required',
 
     ]);
+
     $update = $id->update($request->all());
-    if($update){
-        return ['message' => 'User updated successfully'];
-    }
+        if($update){
+            return ['message' => 'User updated successfully'];
+        }
     
     }
  public function profile(User $id)
  {
     $follow = Followup::where('user_id', $id->id)->get();
-    $people = People::where('ministry', auth()->user()->ministry)->get();
-   $users = User::where('ministry', auth()->user()->ministry)->get();
+    $people = People::where('ministry', auth()->user()->ministrys->id)->get();
+    $users = User::where('ministry', auth()->user()->ministrys->id)->get();
     
     $user = User::where('id', $id->id)->first();
     return view('dashboard.user', compact('user', 'follow', 'people', 'users'));
+ }
+
+ public function invite(Request $request)
+ {
+     return "Okay";
  }
 
 

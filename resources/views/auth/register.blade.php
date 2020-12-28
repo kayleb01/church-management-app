@@ -27,13 +27,13 @@
         ]) !!};
     </script>
 </head>
-<body class="skin-red-light sidebar-mini">
+<body class="hold-transition register-page">
     <div id="app">
-        <main class="py-4">
+        <main class="">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8 rounded border border-secondary" style="background-color:#fff;">
-                        <Register></Register>
+                    <div >
+                        <Register :ministries='{{\App\Ministry::get()}}'></Register>
                     </div>
                 </div>
             </div>

@@ -17,9 +17,10 @@ class FollowupController extends Controller
     public function index()
     {
             //get all the users and use them as Leaders in groups
-        $follow = Followup::where('ministry', auth()->user()->ministry)->get();
-        $people = People::where('ministry', auth()->user()->ministry)->get();
-        $users = User::where('ministry', auth()->user()->ministry)->get();
+        $follow = Followup::where('ministry', auth()->user()->ministrys->id)->get();
+        $people = People::where('ministry', auth()->user()->ministrys->id)->get();
+        $users = User::where('ministry', auth()->user()->ministrys->id)->get();
+
         return view('dashboard.followup', compact('follow', 'people', 'users'));
     }
 
@@ -46,7 +47,7 @@ class FollowupController extends Controller
     return Followup::create([
             'person_id'     => request('person_id'),
             'user_id'       => request('user_id'),
-            'ministry'      => auth()->user()->ministry,
+            'ministry'      => auth()->user()->ministrys->id,
             'date'          => request('date'),
             'type'          => request('type'),
             'from'          => request('from'),
@@ -67,7 +68,7 @@ class FollowupController extends Controller
      */
     public function show()
     {
-        return Followup::where('ministry', auth()->user()->ministry)->paginate(20);
+        return Followup::where('ministry', auth()->user()->ministrys->id)->paginate(20);
     }
 
     /**
@@ -91,9 +92,9 @@ class FollowupController extends Controller
     ]);
     
     $update = $id->update($request->all());
-    if($update){
-        return ['message' => 'Followup updated successfully'];
-    }
+        if($update){
+            return ['message' => 'Followup updated successfully'];
+        }
     }
 
     /**

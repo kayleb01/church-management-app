@@ -7,22 +7,28 @@
     		<h3><i class="fa fa-dashboard"></i>All Contributions</h3>
   		</section>
 		<section class="content">
-		<span><b>Total Amount:</b> N950,000.00</span>
-		<table class="table table-hover bg-light">
-			<th>NAME</th>
-			<th>AMOUNT</th>
-            <th>DATE</th>
-			<tr>
-				<td>Caleb Bala</td>
-				<td>N2400</td>
-				<td>21/05/2020</td>
-			</tr>
-			<tr>
-				<td>Ibrahim Akawu</td>
-				<td>N9000</td>
-				<td>21/05/2020</td>
-			</tr>
-		</table>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="cardt=-title">Contributions</h3>
+			</div>
+			<div class="card-body">
+				<span><b>Total Amount:</b> N950,000.00</span>
+				
+				<table class="table table-hover bg-light">
+					<th>NAME</th>
+					<th>AMOUNT</th>
+					<th>DATE</th>
+					@foreach($contribution as $fund)
+					<tr>
+						<td>{{$fund->people->first_name}} {{$fund->people->last_name}}</td>
+						<td>N{{$fund->amount}}</td>
+						<td>{{$fund->date}}</td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+		
 		</section>
 	</div>
 </div>

@@ -1,10 +1,10 @@
 <template name="sessions">
-<div>  
+<div class="row col-md-12">  
 <span class="text-md  font-semibold text-dark">
-<div class="row col-md-12">
+<div >
     <h5>Sessions</h5>
-    <div class="form-group ">
-        <button class="btn btn-secondary rounded-pill py-2 px-4 float-right" @click.prevent="showModal" type="button" data-item-id="1" id="edit-item" >Add Session <i></i></button>
+    <div class="form-group float-right">
+        <button class="btn btn-secondary rounded-pill py-2 px-4 " @click.prevent="showModal" type="button" data-item-id="1" id="edit-item" >Add Session <i></i></button>
     </div>
 </div>
 </span>
@@ -52,7 +52,7 @@
             </div>
         </div>   
     </div> <!--Endof modal-->
-</div>
+
 </template>
 
 <script>
@@ -67,11 +67,13 @@ export default {
 
     methods: {
         showModal() {
-           $('#add-session').modal('show');
+             $('#add-session').modal('show');
+            
         },
+
         hide () {
             $('#add-session').modal('hide');
-        },
+          },
         sessions() {
             this.loading = true;
 
@@ -92,10 +94,6 @@ export default {
                 });
         },
 
-        register() {
-            this.$modal.hide("sessions");
-            this.$modal.show("register");
-        }
     }
 };
 </script>

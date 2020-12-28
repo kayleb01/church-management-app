@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use App\EventRepeat;
+use App\Calendar;
 
 class EventController extends Controller
 {
@@ -16,7 +17,7 @@ class EventController extends Controller
     public function index()
     {
             //get all the users and use them as Leaders in groups
-        $event = Event::where('ministry', auth()->user()->ministry)->get();
+        $event = Event::where('ministry', auth()->user()->ministrys->id)->get();
         return view('dashboard.events', compact('event'));
     }
 
@@ -40,19 +41,31 @@ class EventController extends Controller
             'visibility' => 'sometimes',
         ]); 
 
-        return  Event::create([
-            'title'  => request('title'),
-            'ministry'      => auth()->user()->ministry,
+        $event =  Event::create([
+            'title'         => request('title'),
+            'ministry'      => auth()->user()->ministrys->id,
             'user_id'       => auth()->user()->id,
             'from'          => request('from'),
             'to'            => request('to'),
-            'event_date'   => request('event_date'),
+            'event_date'    => request('event_date'),
             'event_image'   => request('event_image'),
             'tickets'       => request('tickets'),
             'attendance'    => request('attendance'),
             'visibility'    => request('visibility'),
             'description'   => request('description')
         ]);
+
+        if($event){
+            //save the events to display on the calendar
+           $calendar =  Calendar::create([
+                'title'     =>  request('title'),
+                'event_id'  =>  $event->id,
+                'start'     =>  request('event_date'),
+                'end'       =>  request('event_date'),
+            ]);
+
+            return $event;
+        }
         // if($event){
         //     $eventrep = EventRepeat::create([
         //     'repeat' => request('repeat'),
@@ -69,7 +82,7 @@ class EventController extends Controller
      */
     public function show()
     {
-        return Event::where('ministry', auth()->user()->ministry)->paginate(20);
+        return Event::where('ministry', auth()->user()->ministrys->id)->paginate(20);
     }
 
     /**
@@ -89,9 +102,9 @@ class EventController extends Controller
     ]);
     
     $update = $id->update($request->all());
-    if($update){
-        return ['message' => 'User updated successfully'];
-    }
+        if($update){
+            return ['message' => 'User updated successfully'];
+        }
     }
 
     /**
@@ -102,14 +115,32 @@ class EventController extends Controller
      */
     public function destroy(Event $id)
     {
-        $group =  $id;
-        $group->delete();
+        $event =  $id;
+        $event->delete();
 
         if (request()->expectsJson()) {
             return response(['status' => 'Group deleted']);
         }
 
         return back();
+    }
+
+    /**
+     * retrieve the specified resource from storage.
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function upcoming()
+    {   
+        $date = now();
+        return Event::where('ministry', auth()->user()->ministrys->id)
+                        ->whereMonth('event_date', '>', $date->month)
+                        ->orWhere(function($query)use($date){
+                            $query->whereMonth('event_date', '=', $date->month)
+                            ->whereDay('event_date', '>=', $date->day);
+                        })->orderByRaw("DAYOFMONTH('event_date')", 'ASC')->take(4)
+                        ->get();
     }
 
 }

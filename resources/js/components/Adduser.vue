@@ -1,19 +1,32 @@
 <template name="Adduser">
     <div>
         <FlashMessage></FlashMessage>
-        <a href="#" class="btn btn-secondary rounded-pill py-2 px-4 pull-right mb-3"@click.prevent="newModal">Add <i class="fa fa-plus"></i></a>
-        <h3><i class="fa fa-dashboard mt-3"></i>User</h3>
-        <div class="dropdown">
+          <h3><i class="fa fa-dashboard mt-3"></i>User</h3>
+          <div class="dropdown">
+				<button class="btn btn-outline-secondary rounded dropdown-toggle mb-2" type="button" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-plus"></i>	Add User
+				</button>
+				<div class="dropdown-menu" aria-labelledby="user">
+					 <a href="#" class="dropdown-item" @click.prevent="newModal">Add </a>
+				</div>
+		</div>
+       
+      
+        <!-- <div class="dropdown">
 				<button class="btn btn-outline-secondary dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Bulk Action
 				</button>
 				<div class="dropdown-menu" aria-labelledby="bulk">
+                    <a class="dropdown-item" href="#">Invite User</a>
 					<a class="dropdown-item text-danger" href="#">Delete</a>
 				</div>
-		</div>
+		</div> -->
 			<div class="card">
-              <div class="card-body table-responsive p-0" style="height: 300px;">
-                <table class="table table-head-fixed text-nowrap">
+              <div class="card-body table-responsive p-0" style="height: 600px;">
+                  <table v-if="user.confirmed != 1" class="table table-striped">
+                       <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                  </table>
+                <table class="table table-head-fixed text-nowrap" v-else>
                   <thead>
                     <tr>
 						<th><input type="checkbox" name="check" id="check"></th>
@@ -21,12 +34,13 @@
                       <th>Email</th>
                       <th>Mobile Number</th>
                       <th>Role</th>
-					  <th>Last access</th>
+					  <th>Status</th>
+                      <th></th>
 					  <th></th>
                     </tr>
                   </thead>
-                  <tbody>
-                     
+                  <tbody >
+                    
                     <tr v-for="user in users" :key="user.id">
 						<td> <input type="checkbox" name="mark" id="mark"></td>
                       <td>
@@ -35,18 +49,36 @@
                       <td>{{user.email}}</td>
                       <td>{{user.mobile_number}}</td>
                       <td>
-					    <span v-if="user.role === 1">Member</span>
-                        <span  v-else-if="user.role === 2">Admin</span>
-                        <span v-else>Owner</span>
+					    <span v-if="user.role == 1">Member</span>
+                         <span v-else-if="user.ministrys.user_id == user.id">Owner</span>
+                        <span  v-else-if="user.role == 2 || user.role == 3">Admin</span>
 					  </td>
-					<td>{{user.updated_at}}</td>
-					  <td><button class="btn btn-flat"@click.prevent="editModal(user)"> <i class="fa fa-edit"></i></button> | <button class="btn btn-flat" @click.prevent="destroy(user.id)"><i class="fa fa-trash"></i></button></td>
+					<td>
+                          <span v-if="user.confirmed == 1" class="bg-success px-2 py-1 rounded ">Confirmed</span>
+                          <span v-else class="bg-warning px-2 py-1 rounded">Pending</span>
+                        </td>
+					  <td >
+                          <span v-if="user.confirmed == 0"> <button class="border border-secondary " @click="markConfirmed(user.id)"> <i class="fa fa-check"></i></button></span>
+                      </td>
+					  <td>
+                           <div class="dropdown">
+                                <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="bulk"> 
+                                    <button class="dropdown-item" @click="editModal(user)">Edit</button>
+                                    <button class="dropdown-item text-danger" @click.prevent="destroy(user.id)">Delete</button>
+                                    
+                                </div>
+                           </div>
+                         </td>
 					</tr>
 				 
                   </tbody>
+                 
                 </table>
               </div>
 			</div>
+           
         <div class="modal slide" id="add-user">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -145,6 +177,7 @@ export default{
                  id: '',
                 role: '',
                 email:'',
+                userEmail:'',
                 firstname: '',
                 lastName: '',
                 mobile_number:'',
@@ -159,6 +192,48 @@ export default{
        this.fetch();
     },
     methods: {
+        markConfirmed(id){
+            axios.post("/markconfirmed/"+ id +"")
+            .then(() => {
+                this.flashMessage.info({
+                    message:'User confirmed'
+                });
+                this.fetch();
+            })
+            .catch(error => {
+                    this.flashMessage.error ({
+                       message: "An Unexpected error occured. Please try again."+ error,
+                       });
+                            });
+        },
+
+        invite(){
+            this.form.reset();
+            $('#invite').modal('show');
+        },
+
+        inviteUser(){
+            this.loading = true;
+            this.form.post('user/invite')
+
+            .then(({data}) => {
+                this.flashMessage.info({
+                    message:'Invite sent'
+                })
+
+                this.loading = false;
+                $('invite').modal('hide');
+            })
+
+            .catch((err) => {
+                this.flashMessage.error({
+                    message:"An error encountered"+error
+                })
+                this.loading = false;
+                $('invite').modal('hide');
+            })
+        },
+        
         newModal(){
             this.form.reset();
             $('#add-user').modal('show');

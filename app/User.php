@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'ministry', 'firstname', 'lastName', 'mobile_number', 'email', 'password', 'role',
+        'gender', 'country', 'ministry', 'firstname', 'lastName', 'mobile_number', 'email', 'password', 'role',
     ];
 
     /**
@@ -27,6 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 
+     * This appends to the whole array of the user details
+     */
+    protected $with = ['ministrys'];
 
     /**
      * The attributes that should be cast to native types.
@@ -40,5 +46,10 @@ class User extends Authenticatable
     public function creator()
     {
         return $this->hasMany('App\Note', 'creator');
+    }
+
+    public function ministrys()
+    {
+        return $this->belongsTo('App\Ministry', 'ministry');
     }
 }

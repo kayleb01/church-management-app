@@ -55,7 +55,7 @@ namespace App\Http\Controllers;
 
                 return  People::create([
                     'first_name'    => request('first_name'),
-                    'ministry'      => auth()->user()->ministry,
+                    'ministry'      => auth()->user()->ministrys->id,
                     'last_name'     => request('last_name'),
                     'middle_name'   => request('middle_name'),
                     'email'         => request('email'),
@@ -86,9 +86,10 @@ namespace App\Http\Controllers;
              */
             public function show()
             {
-                return People::where('ministry', auth()->user()->ministry)->paginate(1);
+                return People::where('ministry', auth()->user()->ministrys->id)->paginate(30);
             }
 
+            
             /**
              * Update the specified resource in storage.
              *
@@ -209,4 +210,16 @@ namespace App\Http\Controllers;
 
         return back();
     }
-        }
+
+/**
+     * upload image to the dir and input the name to database.
+     *
+     * @param  File  $file
+     * @return \Illuminate\Http\Response
+     */
+    public function imageUpload(Request $request)
+    {
+        //
+    }
+
+ }

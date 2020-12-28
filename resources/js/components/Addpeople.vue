@@ -1,62 +1,108 @@
 <template name="Addpeople">
     <div><h3><i class="fa fa-dashboard mt-3"></i>People</h3>
-    <button class="btn btn-secondary rounded-pill py-2 px-4 mb-3 " @click.prevent="showModal">Add <i class="fa fa-plus"></i></button>
+    <button class="btn btn-outline-secondary rounded py-2 px-4 mb-3 " @click.prevent="showModal">Add <i class="fa fa-plus"></i></button>
     
         <section >		
             <FlashMessage></FlashMessage>
-			<div class="card">
-              <div class="card-body table-responsive p-0" style="height: 300px;">
-                <table class="table table-head-fixed text-nowrap">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">List of people</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                   <table v-if="user.confirmed != 1" class="table table-striped">
+                       <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                  </table>
+                <!-- <div id="" class="dataTables_wrapper dt-bootstrap4"> -->
+                    <!-- <div class="row" > -->
+                        <!-- <div class="col-sm-12"> -->
+                <table class="table" v-else>
                   <thead>
                     <tr>
-                      <th><input type="checkbox" name="" id=""></th>
                       <th>Name</th>
-                      <th>Mobile</th>
-                      <th>Email</th>
+                      <th>Mobile Number</th>
+                      <th>email</th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody v-if="peoples != ''">
-                    <tr v-for="people in peoples" :key="people.id" >
-                      <td>
-						  <form action="">
-							  <input type="checkbox" name="" id="">
-						  </form>
-					  </td>
-                      <td><a :href="'people/'+people.id">{{people.first_name}} {{people.last_name}}</a>  </td>
-                      <td>{{people.mobile_number}} </td>
-                        <td>{{people.email}}</td>
-                      <td>
-					<button class="btn btn-flat" @click.prevent="editModal(people)"> <i class="fa fa-edit"></i></button> | <button class="btn btn-flat" @click.prevent="destroy(people.id)"><i class="fa fa-trash"></i></button>
-						</ul>
-						
-					  </td>
+                    <tr v-for="people in peoples" :key="people.id">
+                        <td>
+                            <a :href="'people/'+people.id">{{people.first_name}} {{people.last_name}}</a>
+                        </td>
+                        <td>
+                          {{people.mobile_number}} 
+                        </td>
+                        <td>
+                            {{people.email}}
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                            <div class="dropdown-menu" aria-labelledby="bulk"> 
+                                <button class="dropdown-item" @click="editModal(people)">Edit</button>
+                                <button class="dropdown-item text-danger" @click.prevent="destroy(people.id)">Delete</button>
+                            </div>
+                            </div>
+                        </td>
                     </tr>
-                    <paginator :dataSet="dataSet"  @changed="fetch"></paginator>
-
                   </tbody>
-                  <tbody v-else><tr><td><h3>NO DATA</h3></td></tr></tbody>
+                  <tbody v-else>
+                        <tr>
+                          <td class="text-center font-weight-bold">
+                              <h3>NO DATA</h3>
+                        </td>
+                        </tr>
+                    </tbody>
                 </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
+            
+                <div class="card-footer clearfix">
+                    <nav v-if="peoples !=''">
+                        <ul class="pagination">
+                            <li :class="[{disabled: !pagination.prev_page}]" class="page-item">
+                                <a href="#" class="page-link" @click="fetchPeople(pagination.prev_page)">&laquo;Previous</a>
+                            </li>
+                            <li class="page-item disabled"> 
+                                <a href="#" class="page-link text-dark">Page {{pagination.current_page}} of {{pagination.last_page}}</a>
+                            </li>
+                                <li :class="[{disabled: !pagination.next_page}]" class="page-item">
+                                <a href="#" class="page-link" @click="fetchPeople(pagination.next_page)">Next&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div> <!-- </End of the card body> -->
+        </div><!-- </End of the card div> -->
 		</section>
         <div class="modal fade" id="add-people">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="modal-title">Add People</div>
+                        <div class="modal-title">
+                            <span v-if="editmode == false">Add Person</span>
+                            <span v-if="editmode ===true"> Update Person</span>
+                            </div>
                             <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        
                     </div>
                 <div class="modal-body">
                     <section class="content">
                         <div class="box">
                             <div class="box-body padding">
                             <form class="form-horizontal" @submit.prevent="editmode ? updatePeople() : addPeople()" enctype="multipart/form-data">
-                                <input name="_method" value="PUT" type="hidden">
+                               
+                               <div class="form-group align-center">
+                                   <div class="border border-secondary rounded px-2 py-1" style="position:relative; display:inline-block">
+                                    <i class="fa fa-photo"></i> <b>Image</b>
+                                   <input type="file" @change="onFileChange()" style="opacity:0; left:0; top:0; position:absolute;">
+                                   </div>
+                                   <span v-if="image">
+                                        <img :src="image" class="image-user">
+                                   </span>
+                                  
+                               </div>
                                 <div class="form-group">
                                     <label class="col-sm-6 control-label" for="fname">First name</label>
                                     <div class="">
@@ -210,7 +256,6 @@
                                     <button type="submit" class="btn btn-secondary rounded-pill btn-block">Add</button>
                                 </div>
                                 </form>
-                    
                                 </div>
                             </div>
                         </section>
@@ -224,9 +269,11 @@
 <script>
 import Select2MultipleControl from 'v-select2-multiple-component';
 
+
 export default{
     components: {Select2MultipleControl},
     props:['groups'],
+
     data(){
         return {
             form: new Form({
@@ -250,22 +297,39 @@ export default{
                 grade:'',
                 marital_status:'',
                 join_date:''
-
             }),
+
             editmode: false,
             peoples:'',
             feedback: "",
-            dataSet:'',
-            loading: false
+            pagination:'',
+            loading: false,
+            image:'',
         };
     },
     created(){
-        this.fetch();
+        this.fetchPeople();
     }, 
     methods: {
+
+        onFileChange(e){
+            let file = e.target.files[0] || e.dataTransfer.files;
+
+                //instantiate new reader and Image instance
+            let image = new Image;
+            let reader = new Reader;
+
+            reader.onload = (e) =>{
+                this.image = e.target.result
+            };
+            reader.readAsUrl(files[0]);
+
+        },
+
         updatePeople(){
             this.loading = true;
             this.form.patch(`/people/${this.form.id}/edit`)
+            
             .then(() => {
                 this.flashMessage.info({
                 title: 'People Info',
@@ -273,7 +337,7 @@ export default{
                 });
 
                  $('#add-people').modal('hide');
-                this.fetch();
+                this.fetchPeople();
                 this.loading = false;
             })
             .catch(error => {
@@ -303,7 +367,7 @@ export default{
                 .then(() => {
                     //if successful, hide the modal and fetch the new data
                 $('#add-people').modal('hide');
-                this.fetch();
+                this.fetchPeople();
 
                 this.flashMessage.info({
                 message: 'Person created successfully!'
@@ -321,15 +385,41 @@ export default{
                 });
              
         },
-    fetch() {
-            axios.get(this.url()).then(({data}) => {this.peoples = data.data; this.dataSet = data;});
+        fetchPeople(page_url){
+            let vm = this;
+            page_url = page_url || 'peoples';
+            fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+                this.peoples = res.data
+                vm.makePagination(res);
+            })
+            .catch((err) => console.log(err));
         },
+        makePagination(res) {
+               let pagination = {
+                   current_page: res.current_page,
+                   last_page:    res.last_page,
+                   next_page:    res.next_page_url,
+                   prev_page:    res.prev_page_url
+               };
+               this.pagination = pagination;
+            },
 
-        url() {
-            return `/peoples`;
+        url(page) {
+           
+            if (!page) {
+                let query = location.search.match(/page=(\d+)/);
+
+                page = query ? query[1] : 1;
+            }
+
+            return `${location.pathname}/peoples/?page=${page}`;
         },
          destroy(id){
+
               if (confirm("Are you sure? cannot be undone")) {
+            
             axios
                 .delete("/people/" + id);
                 this.$emit("destroyed", id); 
@@ -337,10 +427,9 @@ export default{
                         message: 'Person deleted successfully!'
                     });
               
-               this.fetch();
+               this.fetchPeople();
               }
         },
-
     }
 }
 
