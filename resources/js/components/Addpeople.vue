@@ -1,8 +1,8 @@
 <template name="Addpeople">
     <div><h3><i class="fa fa-dashboard mt-3"></i>People</h3>
     <button class="btn btn-outline-secondary rounded py-2 px-4 mb-3 " @click.prevent="showModal">Add <i class="fa fa-plus"></i></button>
-    
-        <section >		
+
+        <section >
             <FlashMessage></FlashMessage>
             <div class="card">
               <div class="card-header">
@@ -31,7 +31,7 @@
                             <a :href="'people/'+people.id">{{people.first_name}} {{people.last_name}}</a>
                         </td>
                         <td>
-                          {{people.mobile_number}} 
+                          {{people.mobile_number}}
                         </td>
                         <td>
                             {{people.email}}
@@ -40,7 +40,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
-                            <div class="dropdown-menu" aria-labelledby="bulk"> 
+                            <div class="dropdown-menu" aria-labelledby="bulk">
                                 <button class="dropdown-item" @click="editModal(people)">Edit</button>
                                 <button class="dropdown-item text-danger" @click.prevent="destroy(people.id)">Delete</button>
                             </div>
@@ -56,14 +56,14 @@
                         </tr>
                     </tbody>
                 </table>
-            
+
                 <div class="card-footer clearfix">
                     <nav v-if="peoples !=''">
                         <ul class="pagination">
                             <li :class="[{disabled: !pagination.prev_page}]" class="page-item">
                                 <a href="#" class="page-link" @click="fetchPeople(pagination.prev_page)">&laquo;Previous</a>
                             </li>
-                            <li class="page-item disabled"> 
+                            <li class="page-item disabled">
                                 <a href="#" class="page-link text-dark">Page {{pagination.current_page}} of {{pagination.last_page}}</a>
                             </li>
                                 <li :class="[{disabled: !pagination.next_page}]" class="page-item">
@@ -92,16 +92,19 @@
                         <div class="box">
                             <div class="box-body padding">
                             <form class="form-horizontal" @submit.prevent="editmode ? updatePeople() : addPeople()" enctype="multipart/form-data">
-                               
                                <div class="form-group align-center">
-                                   <div class="border border-secondary rounded px-2 py-1" style="position:relative; display:inline-block">
-                                    <i class="fa fa-photo"></i> <b>Image</b>
-                                   <input type="file" @change="onFileChange()" style="opacity:0; left:0; top:0; position:absolute;">
+                                   <div class="border border-secondary rounded px-2 py-1" style="position:relative; display:inline-block" v-show="!image">
+                                        <i class="fa fa-photo"></i> <b>Image</b>
+                                        <input type="file" @change="onFileChange" style="opacity:0; left:0; top:0; position:absolute;">
                                    </div>
-                                   <span v-if="image">
-                                        <img :src="image" class="image-user">
-                                   </span>
-                                  
+                                   <div v-if="image" class="justify-content-center">
+                                       <center>
+                                        <button  @click.prevent="removeImage" class="bg-dark text-white opacity-30 rounded-pill btn btn-flat" style="margin:-50px; z-index:8; position:relative">remove</button>
+                                            <img :src="image" class="image-user img-responsive ">
+                                       </center>
+
+                                   </div>
+
                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-6 control-label" for="fname">First name</label>
@@ -147,10 +150,7 @@
                                     <div class="">
                                         <input name="city" id="city" placeholder="City" class="form-control mb-2" type="text" v-model="form.city">
                                     </div>
-                                        <label class="col-sm-6 control-label" for="zipcode">Zip Code</label>
-                                    <div class="">
-                                        <input type="number" name="zipcode" id="zipcode" class="form-control " placeholder="Zip Code" v-model="form.zipcode">
-                                    </div>
+
                                 </div>
                                 <hr>
                                 <div class="form-check form-group">
@@ -167,24 +167,18 @@
                                         <input name="mobile_number" type="tel" class="form-control" maxlength="15" placeholder="080 234 5678" v-model="form.mobile_number">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="col-sm-2 control-label" for="facebook">Facebook</label>
                                     <div class="">
                                         <input name="facebook" type="url" class="form-control"  placeholder="Facebook Profile" v-model="form.facebook">
                                     </div>
-                                </div>
+                                </div> -->
                                 <hr>
                                 <div class="form-group">
                                     <label for="group">Groups</label>
                                     <div class="">
-                                      <select name="group_id" id="group_id" class="select2" multiple='multiple' data-placeholder="Select a Group">
-                                            <option>Alabama</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
+                                      <select name="group_id" class="form-control" data-placeholder="Select a Group" v-model="form.group_id">
+                                            <option :value="group.id" v-for="group in groups" :key="group.id">{{ group.name }}</option>
                                       </select>
                                     </div>
                                 </div>
@@ -244,13 +238,13 @@
                                             <option value="Engaged">Engaged</option>
                                             <option value="Divorced">Divorced</option>
                                         </select>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="col-sm-10 control-label" for="joindate">Join Date</label>
                                     <input type="date" name="join_date" class="form-control" v-model="form.join_date">
-                                </div>                   
+                                </div>
                                 <div class="clearfix"></div>
                                 <div class="form-group" style="padding: 10px;">
                                     <button type="submit" class="btn btn-secondary rounded-pill btn-block">Add</button>
@@ -264,14 +258,10 @@
             </div> <!-- </ modal class> -->
         </div>
  </div>
-  
+
 </template>
 <script>
-import Select2MultipleControl from 'v-select2-multiple-component';
-
-
 export default{
-    components: {Select2MultipleControl},
     props:['groups'],
 
     data(){
@@ -285,51 +275,66 @@ export default{
                 address:'',
                 state:'',
                 city:'',
-                zipcode:'',
                 gender:'',
                 mobile_number:'',
-                facebook:'',
-                group_id: [],
+                group_id:'',
                 job_title:'',
                 employer:'',
                 talent:'',
                 school:'',
                 grade:'',
                 marital_status:'',
-                join_date:''
+                join_date:'',
+                file:''
             }),
-
+            image:'',
             editmode: false,
             peoples:'',
             feedback: "",
             pagination:'',
             loading: false,
-            image:'',
+            group_names:'',
+            groupee: this.groups
+
         };
     },
     created(){
         this.fetchPeople();
-    }, 
+    },
+    mounted(){
+        this.grouped()
+    },
     methods: {
 
         onFileChange(e){
-            let file = e.target.files[0] || e.dataTransfer.files;
+            let files = e.target.files || e.dataTransfer.files
+            if(!files.length){
+                return;
+            }else{
+                console.log(files[0])
+                this.form.file = files[0]
+                this.createImage(files[0])
 
-                //instantiate new reader and Image instance
-            let image = new Image;
-            let reader = new Reader;
+            }
+        },
 
-            reader.onload = (e) =>{
-                this.image = e.target.result
-            };
-            reader.readAsUrl(files[0]);
+        createImage(file){
+            let reader =  new FileReader();
+            let vm = this
+            reader.onloadend = () => {
+                vm.image = reader.result
+            }
+            reader.readAsDataURL(file)
+        },
 
+        removeImage(){
+            this.image = '';
         },
 
         updatePeople(){
             this.loading = true;
             this.form.patch(`/people/${this.form.id}/edit`)
-            
+
             .then(() => {
                 this.flashMessage.info({
                 title: 'People Info',
@@ -344,26 +349,48 @@ export default{
                         this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                         this.loading = false;
                     });
-           
+
         },
 
         editModal(data){
             this.editmode = true;
-            this.form.reset();
+            this.form.reset()
             $('#add-people').modal('show');
             this.form.fill(data);
         },
 
 
         showModal () {
-            this.form.reset();
+           this.form.reset();
             $('#add-people').modal('show');
         },
 
        addPeople() {
+           let formdata = new FormData();
+           formdata.append("first_name", this.form.first_name);
+           formdata.append("last_name", this.form.last_name);
+           formdata.append("middle_name", this.form.middle_name);
+           formdata.append("first_name", this.form.first_name);
+           formdata.append("email", this.form.email);
+           formdata.append("date_of_birth", this.form.date_of_birth);
+           formdata.append("address", this.form.address);
+           formdata.append("state", this.form.state);
+           formdata.append("city", this.form.city);
+           formdata.append("gender", this.form.gender);
+           formdata.append("mobile_number", this.form.mobile_number);
+           formdata.append("group_id", this.form.group_id);
+           formdata.append("job_title", this.form.job_title);
+           formdata.append("employer", this.form.employer);
+           formdata.append("talent", this.form.talent);
+           formdata.append("school", this.form.school);
+           formdata.append("grade", this.form.grade);
+           formdata.append("marital_status", this.form.marital_status);
+           formdata.append("join_date", this.form.join_date);
+           formdata.append("file", this.form.file);
+
            //start the spinner and disable the button
             this.loading = true;
-             this.form.post("/people/add")
+             this.form.post("/people/add", this.form)
                 .then(() => {
                     //if successful, hide the modal and fetch the new data
                 $('#add-people').modal('hide');
@@ -383,7 +410,7 @@ export default{
                     $('#add-people').modal('hide');
                     this.loading = false;
                 });
-             
+
         },
         fetchPeople(page_url){
             let vm = this;
@@ -407,7 +434,7 @@ export default{
             },
 
         url(page) {
-           
+
             if (!page) {
                 let query = location.search.match(/page=(\d+)/);
 
@@ -419,17 +446,25 @@ export default{
          destroy(id){
 
               if (confirm("Are you sure? cannot be undone")) {
-            
+
             axios
                 .delete("/people/" + id);
-                this.$emit("destroyed", id); 
+                this.$emit("destroyed", id);
                     this.flashMessage.info({
                         message: 'Person deleted successfully!'
                     });
-              
+
                this.fetchPeople();
               }
         },
+        grouped(){
+            let arr = []
+            this.groupee.forEach(element => {
+                arr.push(element.name)
+                arr['id'] = element.id
+            });
+            this.group_names = arr
+        }
     }
 }
 

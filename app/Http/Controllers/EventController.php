@@ -36,10 +36,8 @@ class EventController extends Controller
             'to' => 'required',
             'event_image' => 'sometimes',
             'description' => 'sometimes',
-            'tickets' => 'sometimes',
             'attendance' =>'sometimes',
-            'visibility' => 'sometimes',
-        ]); 
+        ]);
 
         $event =  Event::create([
             'title'         => request('title'),
@@ -49,9 +47,7 @@ class EventController extends Controller
             'to'            => request('to'),
             'event_date'    => request('event_date'),
             'event_image'   => request('event_image'),
-            'tickets'       => request('tickets'),
             'attendance'    => request('attendance'),
-            'visibility'    => request('visibility'),
             'description'   => request('description')
         ]);
 
@@ -61,6 +57,7 @@ class EventController extends Controller
                 'title'     =>  request('title'),
                 'event_id'  =>  $event->id,
                 'start'     =>  request('event_date'),
+                'ministry'  =>  $event->ministry,
                 'end'       =>  request('event_date'),
             ]);
 
@@ -77,7 +74,7 @@ class EventController extends Controller
     /**
      * Display the specified all groups.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
@@ -100,7 +97,7 @@ class EventController extends Controller
         'user_id'       => 'required',
         'description'      => 'sometimes',
     ]);
-    
+
     $update = $id->update($request->all());
         if($update){
             return ['message' => 'User updated successfully'];
@@ -128,19 +125,22 @@ class EventController extends Controller
     /**
      * retrieve the specified resource from storage.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function upcoming()
-    {   
+    {
         $date = now();
-        return Event::where('ministry', auth()->user()->ministrys->id)
-                        ->whereMonth('event_date', '>', $date->month)
+        // return $date->month;
+        $event = Event::where('ministry', auth()->user()->ministrys->id)
+                        ->whereMonth('event_date', '>=', $date->month)
                         ->orWhere(function($query)use($date){
                             $query->whereMonth('event_date', '=', $date->month)
                             ->whereDay('event_date', '>=', $date->day);
                         })->orderByRaw("DAYOFMONTH('event_date')", 'ASC')->take(4)
                         ->get();
+
+        return $event;
     }
 
 }

@@ -1,10 +1,10 @@
  <!-- Main Sidebar Container -->
- <aside class="main-sidebar bg-light text-black elevation-4">
+ <aside class="main-sidebar bg-light text-black elevation-0">
     <!-- Brand Logo -->
-   
+
     <a href="/" class="brand-link " style="background-color:#dd6b39">
      <span class="brand-image" style="opacity: .8">
-     <h3 class="font-weight-bold  text-light">DM</h3> 
+     <h3 class="font-weight-bold  text-light">DM</h3>
     </span>
       <span class="brand-text font-weight-light text-light">Daimond Masjid</span>
     </a>
@@ -43,7 +43,7 @@
               <i class="nav-icon fa fa-th"></i>
               <p>
                 People
-                
+
               </p>
             </a>
           </li>
@@ -108,7 +108,7 @@
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-money"></i>
               <p>
-                Contribution                
+                Contribution
               <i class="right fa fa-angle-left"></i>
               </p>
             </a>
@@ -155,7 +155,7 @@
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-gear"></i>
               <p>
-                Settings                
+                Settings
               <i class="right fa fa-angle-left"></i>
               </p>
             </a>
@@ -178,7 +178,7 @@
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-wrench"></i>
               <p>
-                Tools                
+                Tools
               <i class="right fa fa-angle-left"></i>
               </p>
             </a>
@@ -221,7 +221,7 @@
               <i class="nav-icon fa fa-power-off"></i>
               <p>
               Log Out
-                 
+
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                   </form>

@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\PleaseConfirmYourEmail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 
 
 class RegisterController extends Controller
@@ -45,6 +46,22 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+      /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -59,14 +76,14 @@ class RegisterController extends Controller
             'fname' => 'required',
             'lname' =>'required',
             'phonenum'   => 'required',
-            'ministry'  => 'required|unique:ministries'
+            'ministry'  => 'required'
 
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
-     *
+     *`
      * @param  array $data
      * @return User
      */
@@ -76,12 +93,12 @@ class RegisterController extends Controller
             'ministry' => $data['ministry'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'firstname' => $data['fname'],
+            'firstName' => $data['fname'],
             'lastName' => $data['lname'],
             'mobile_number' => $data['phonenum'],
             'role' => 3,
         ]);
-     
+
     }
 
     /**

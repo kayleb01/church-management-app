@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'gender', 'country', 'ministry', 'firstname', 'lastName', 'mobile_number', 'email', 'password', 'role',
+        'gender', 'country', 'ministry', 'firstName', 'lastName', 'mobile_number', 'email', 'password', 'role',
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * 
+     *
      * This appends to the whole array of the user details
      */
     protected $with = ['ministrys'];

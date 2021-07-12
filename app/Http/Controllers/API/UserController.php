@@ -21,7 +21,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+       $user = User::all();
+       return response()->json($user);
     }
 
     /**
@@ -39,7 +40,7 @@ class UserController extends Controller
             'lname' =>'required',
             'phonenum'   => 'required',
             'role'  => 'required',
-        ]); 
+        ]);
 
         return  User::create([
             'email'     => request('email'),

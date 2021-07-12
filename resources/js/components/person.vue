@@ -33,7 +33,6 @@
                     <div class="row no-gutter">
                 <div class="col-md-6">
 					<div class="d-flex justify-content-center">
-						
 						<img src="/storage/face-1.jpg'" alt="User Image" class="image-user">
 					</div>
 					<div class="d-flex justify-content-center mt-2">
@@ -70,17 +69,17 @@
 					</div>
 					</div>
 					<div class="card mt-2">
-							<div class="card-body">
-								<table class="table table-borderless text-center">
-									<tr>	
-										<td>
-											<b>Ministry</b><br>
-											<span>{{person.ministry}}</span>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
+                        <div class="card-body">
+                            <table class="table table-borderless text-center">
+                                <tr>
+                                    <td>
+                                        <b>Ministry</b><br>
+                                        <span>{{person.ministri.name}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+					</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-8">
 						<div class="card p-0 mt-4">
@@ -92,20 +91,20 @@
 										<span>{{person.mobile_number}}</span>
 									</td>
 									<!-- <td>
-										<b>Home Phone</b> 
+										<b>Home Phone</b>
 										<br>
 										<span>____</span>
 									</td> -->
-									
+
 								</tr>
 								<tr>
 									<td>
 										<b>Email</b> <br>
-										<span>{{person.email}}</span>	
+										<span>{{person.email}}</span>
 									</td>
 									<td>
 										<b>Facebook</b> <br>
-										<span>{{person.facebook}}</span>	
+										<span>{{person.facebook}}</span>
 									</td>
 								</tr>
 							</table>
@@ -114,10 +113,11 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless">
-									<tr>	
+									<tr>
 										<td>
 											<b>Groups</b><br><br>
-											<span style="background-color:#ccc" class="rounded-pill px-2 py-1 mt-3">Not in group</span>
+											<span style="background-color:#ccc" class="rounded-pill px-2 py-1 mt-3" v-if="!person.group">Not in group</span>
+											<span style="background-color:#ccc" class="rounded-pill px-2 py-1 mt-3" v-else>{{person.group.name}}</span>
 										</td>
 									</tr>
 								</table>
@@ -126,7 +126,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless">
-									<tr>	
+									<tr>
 										<td>
 											<b>Job Title</b><br>
 											<span v-if="person.job_title">{{person.job_title}}</span>
@@ -146,7 +146,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless text-center">
-									<tr>	
+									<tr>
 										<td>
 											<b>Marital Status</b><br>
 											<span>{{person.marital_status}}</span>
@@ -158,7 +158,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless text-center">
-									<tr>	
+									<tr>
 										<td>
 											<b>Join Date</b><br>
 											<span>{{humanTime(person.created_at)}}</span>
@@ -197,8 +197,7 @@
           </div>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-events" role="tabpanel" aria-labelledby="custom-tabs-three-events-tab">
-                     
-                  </div>
+                   'ministri'</div>
                   <div class="tab-pane fade " id="custom-tabs-three-notes" role="tabpanel" aria-labelledby="custom-tabs-three-notes-tab">
                      <div class="card">
 						 <div class="card-header"><h1 class="card-title">Note </h1> </div>
@@ -211,10 +210,10 @@
 											<div class="dropdown">
 												<button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												</button>
-												<div class="dropdown-menu" aria-labelledby="bulk"> 
+												<div class="dropdown-menu" aria-labelledby="bulk">
 													<button class="dropdown-item" @click="editModal(note)">Edit</button>
 													<button class="dropdown-item text-danger" @click.prevent="destroy(note.id)">Delete</button>
-													
+
 												</div>
 											</div>
 											<span class="text-muted">Created by <a href="#">{{note.user.firstname}} {{note.user.lastName}}</a> {{humanTime(note.created_at)	}}</span><br>
@@ -223,13 +222,12 @@
 										</td>
 									</tr>
 								</tbody>
-								</table>
-								
+							</table>
 						</div>
 					 </div>
                   </div>
 				  <div class="tab-pane fade " id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                    
+
                   </div>
 				  <div class="tab-pane fade " id="custom-tabs-three-followup" role="tabpanel" aria-labelledby="custom-tabs-three-followup-tab">
                     <div class="card">
@@ -243,10 +241,9 @@
 											<div class="dropdown">
 												<button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												</button>
-												<div class="dropdown-menu" aria-labelledby="bulk"> 
+												<div class="dropdown-menu" aria-labelledby="bulk">
 													<button class="dropdown-item" @click="editModal(followup)">Edit</button>
 													<button class="dropdown-item text-danger" @click.prevent="destroy(followup.id)">Delete</button>
-													
 												</div>
 											</div>
 											<span class="font-weight-bold">{{followup.date}}</span><br>
@@ -256,12 +253,10 @@
                           					<span v-else >Pending</span>
 											  <br>
 											  <span>{{followup.ministry}}</span>
-
 										</td>
 									</tr>
 								</tbody>
-								</table>
-								
+							</table>
 						</div>
 					 </div>
                   </div>
@@ -286,7 +281,6 @@
 				  </div>
 				    <div class="card">
 						<div class="card-body">
-							
 							<form @submit.prevent="editmode ? updatenote(person.id) : addNote(person.id) ">
 								<div class="form-group">
 									<input type="hidden" name="note_peep_id">
@@ -298,7 +292,7 @@
 							</form>
 						</div>
 					</div>
-				  
+
 			  </div>
 		  </div>
 	  </div>
@@ -329,7 +323,7 @@
   		<div class="modal slide" id="add-follow">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">  
+                    <div class="modal-header">
                         <h4 class="modal-title">Add Follow up</h4>
                             <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -343,8 +337,9 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="people">People<i class="text-danger">*</i></label>
                                         <div class="">
+
                                         <select name="person_id" class="form-control" v-model="form.person_id">
-                                            <option :value="person.id" v-for="person in people" :key="person.id">{{person.first_name}} {{person.last_name}}</option>
+                                            <option  v-for="persons in peoples" :key="persons.id" :value="persons.id">{{persons.first_name}} {{persons.last_name}}</option>
                                         </select>
                                         </div>
                                         </div>
@@ -381,7 +376,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="to">To <i class="text-danger"></i></label>
                                         <div class="">
-                                            <input type="time" name="to" class="form-control" required v-model="form.to"> 
+                                            <input type="time" name="to" class="form-control" required v-model="form.to">
                                         </div>
                                         </div>
                                         <div class="form-group">
@@ -389,7 +384,7 @@
                                             <div>
                                                 <select name="action_id" id="action" required v-model="form.action_id">
                                                     <option :value="action.id" v-for="action in actons" :key="action.id">{{action.action}}</option>
-                                                </select> 
+                                                </select>
                                                 <a href="#" @click.prevent="showIt" class="btn btn-flat"><i class="fa fa-cog"></i></a>
                                             </div>
                                         </div>
@@ -402,7 +397,7 @@
                                             <div class="">
                                                 <textarea name="note" id="" cols="20" rows="5" class="form-control"  v-model="form.note"></textarea>
                                             </div>
-                                        </div>               
+                                        </div>
                                         <div class="clearfix"></div>
                                         <div class="form-group" style="padding: 10px;">
                                             <button type="submit" class="btn btn-secondary rounded-pill btn-block" :class="loading ? 'loader' : ''" :disabled="loading" >Add</button>
@@ -419,7 +414,7 @@
 </template>
 <script>
 export default{
-	props: [ 'person', 'follow', 'users'],
+	props: [ 'person', 'follow'],
 
     data() {
 		return{
@@ -441,14 +436,19 @@ export default{
 			notes:'',
 			loading:false,
 			editmode:false,
-			actons:''
+			actons:'',
+            peoples:'',
+            users:''
 		};
 
 			},
 			created(){
 				this.getaction();
 			},
-	
+        mounted(){
+            this.fetchPeople();
+            this.getUsers();
+        },
 
     methods:{
 		 updatenote(user){
@@ -467,10 +467,18 @@ export default{
             .catch(error => {
                         this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                     });
-           
+
 		},
 		  getaction(){
             axios.get('/actions').then(({data}) => this.actons = data).catch(error => {
+                this.flashMessage.error ({
+                       message: "An Unexpected error occured. Please try again."+ error,
+                       });
+                    this.loading = false;
+            })
+        },
+        getUsers(){
+            axios.get('/api/users').then(({data}) => this.users = data).catch(error => {
                 this.flashMessage.error ({
                        message: "An Unexpected error occured. Please try again."+ error,
                        });
@@ -499,14 +507,14 @@ export default{
 
 					this.loading = false;
 				})
-				
+
                 .catch(error => {
                     this.flashMessage.error ({
                        message: "An Unexpected error occured. Please try again."
                        });
                     this.loading = false;
                 });
-             
+
         },
 
 			showNotes(){
@@ -527,20 +535,20 @@ export default{
         url(id) {
             return "/peep/notes/" + id +"";
 		},
-		
+
 		destroy(id){
 			if(confirm('Are you sure, this cannot be undone'))
            { axios
                 .delete("/peep/note/" + id);
-                this.$emit("destroyed", id); 
+                this.$emit("destroyed", id);
                     this.flashMessage.success({
                         message: 'Note deleted successfully!'
                     });
-              
+
 			   this.fetch();
 			   }
 		},
-		SendAction(){	
+		SendAction(){
             this.loading = true;
              this.form.post("/action/add")
                 .then(() => {
@@ -554,14 +562,14 @@ export default{
 			$('#add-follow').modal('show');
 			this.loading = false;
                 })
-                
+
                 .catch(error => {
                     this.flashMessage.error ({
                        message: "An Unexpected error occured. Please try again."+ error,
                        });
                     this.loading = false;
                 });
-             
+
 		},
 		 showIt(){
 			  $('#add-follow').modal('hide');
@@ -571,7 +579,7 @@ export default{
 			  $('#add-follow').modal('show');
              $('#actions').modal('hide');
 		},
-		
+
 		addfollow() {
             this.loading = true;
              this.form.post("/followup/add")
@@ -592,7 +600,18 @@ export default{
                        });
                     this.loading = false;
                 });
-             
+
+        },
+        fetchPeople(){
+            let vm = this;
+            let page_url = '/peoples';
+            fetch(page_url)
+            .then(res => res.json())
+            .then(res => {
+                this.peoples = res.data
+                vm.makePagination(res);
+            })
+            .catch((err) => console.log(err));
         },
     }
 

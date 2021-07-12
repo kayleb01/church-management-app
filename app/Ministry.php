@@ -8,5 +8,5 @@ class Ministry extends Model
 {
 
   protected $table = 'ministries';
-  protected $fillable = ['name', 'parent', 'user_id'];
+  protected $fillable = ['name', 'description'];
 }

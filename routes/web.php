@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,12 +42,13 @@ Route::post('/markconfirmed/{id}', 'adminUserController@mark')->middleware('auth
 
 
 
- 
+
  Route::get('view/group', 'GroupController@index')->middleware('auth');
  Route::get('/groups', 'GroupController@show')->middleware('auth');
  Route::post('/group/add', 'GroupController@store')->middleware('auth');
  Route::patch('/group/{id}/edit', 'GroupController@update')->middleware('auth');
  Route::delete('/group/{id}', 'GroupController@destroy')->middleware('auth');
+ Route::get('/group/{group}', 'GroupController@display')->middleware('auth');
 
 
 

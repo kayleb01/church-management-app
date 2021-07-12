@@ -8,6 +8,7 @@ class People extends Model
 {
 
     protected $table = 'peoples';
+    protected $with = ['group', 'ministri'];
     protected $fillable = [
       'first_name',
       'last_name',
@@ -18,7 +19,6 @@ class People extends Model
       'address',
       'state',
       'city',
-      'zipcode',
       'gender',
       'mobile_number',
       'facebook',
@@ -31,4 +31,19 @@ class People extends Model
       'marital_status',
       'join_date'
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return url('media/'.$this->created_at->format('Y').'/'.$this->created_at->format('m').'/' . $this->filename);
+    }
+
+    public function ministri()
+    {
+       return $this->belongsTo(Ministry::class, 'ministry');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }

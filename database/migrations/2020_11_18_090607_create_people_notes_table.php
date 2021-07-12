@@ -15,8 +15,9 @@ class CreatePeopleNotesTable extends Migration
     {
         Schema::create('people_notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('creator');
+            $table->integer('people_id')->unsigned();
+            $table->integer('creator')->unsigned();
+            $table->text('note');
             $table->timestamps();
         });
     }

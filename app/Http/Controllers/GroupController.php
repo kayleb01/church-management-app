@@ -8,7 +8,7 @@ use App\User;
 
 class GroupController extends Controller
 {
-    
+
     /**
      * Display a listing of the group.
      *
@@ -30,15 +30,15 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'group_name' => 'required',
+            'name' => 'required',
             'user_id' => 'required',
             'description' =>'sometimes',
-        ]); 
+        ]);
 
         return  Group::create([
-            'group_name'  => request('group_name'),
+            'name'  => request('name'),
             'ministry'    => auth()->user()->ministrys->id,
-            'user_id'     => request('user_id'),
+            'user_id'     => request()->user_id,
             'description' => request('description')
         ]);
     }
@@ -46,12 +46,12 @@ class GroupController extends Controller
     /**
      * Display the specified all groups.
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        return Group::where('ministry', auth()->user()->ministrys->id)->paginate(20);
+        return Group::where('ministry', auth()->user()->ministrys->id)->withCount('people')->paginate(20);
     }
 
     /**
@@ -64,15 +64,15 @@ class GroupController extends Controller
     public function update(Request $request, Group $id)
     {
             //$this->authorize('update', $thread);
-    $this->validate($request,[
-        'group_name'    => 'required',
-        'user_id'       => 'required',
-        'description'      => 'sometimes',
-    ]);
-    
-    $update = $id->update($request->all());
-    if($update){
-        return ['message' => 'User updated successfully'];
+        $this->validate($request,[
+            'name'  => 'required',
+            'user_id' => 'required',
+            'description' => 'sometimes',
+        ]);
+
+        $update = $id->update($request->all());
+        if($update){
+            return ['message' => 'User updated successfully'];
     }
     }
 
@@ -90,8 +90,13 @@ class GroupController extends Controller
         if (request()->expectsJson()) {
             return response(['status' => 'Group deleted']);
         }
-
         return back();
+    }
+
+    public function display($group)
+    {
+        $group_details = Group::where('id', $group)->with('leader')->withCount('people')->first();
+       return response()->json($group_details);
     }
 
 

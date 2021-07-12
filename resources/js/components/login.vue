@@ -36,7 +36,7 @@
                     <button type="submit" class="btn btn-danger btn-block border-secondary rounded" :class="loading ? 'loader' : ''" :disabled="loading">Log In</button>
                 </div>
                  <div class="form-group mb-5  text-center">
-            
+
                     <a href="/register" class="btn btn-primary btn-block border-primary rounded mt-2">Sign Up Now</a>
 
                     <span>Don't have an acscount yet? <a href="/register">Register</a></span>
@@ -44,9 +44,9 @@
                 <div class="mt-6  p-2" v-if="feedback">
                     <span class="text-xs text-danger" v-text="feedback"></span>
                 </div>
-                        
-                   
-                    
+
+
+
                 </form>
 
                 </div>

@@ -12,6 +12,18 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
-        'group_name', 'user_id', 'description', 'ministry'
+        'name', 'user_id', 'description', 'ministry'
     ];
+    //  protected $with = ['people'];
+
+    public function people()
+    {
+        return $this->hasMany(People::class, 'group_id');
+    }
+
+    public function leader()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

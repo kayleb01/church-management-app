@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Http\Controllers;
 
 use Auth;
@@ -62,7 +62,7 @@ class adminUserController extends Controller
 
     //  Get all the users under this ministry
     public function index()
-    { 
+    {
         $users = User::where('ministry', auth()->user()->ministrys->id)->paginate(20);
         //Return the view
         return $users;
@@ -74,7 +74,7 @@ class adminUserController extends Controller
         return view('dashboard.users');
     }
 
-    public function destroy(User $id)       
+    public function destroy(User $id)
     {
         //For Readability
         $user =  $id;
@@ -89,7 +89,7 @@ class adminUserController extends Controller
 
         //update user
         //$id contains all the user details
-    public function update(Request $request, User $id)    
+    public function update(Request $request, User $id)
     {
     //$this->authorize('update', $thread);
     $this->validate($request,[
@@ -106,14 +106,14 @@ class adminUserController extends Controller
         if($update){
             return ['message' => 'User updated successfully'];
         }
-    
+
     }
  public function profile(User $id)
  {
     $follow = Followup::where('user_id', $id->id)->get();
     $people = People::where('ministry', auth()->user()->ministrys->id)->get();
     $users = User::where('ministry', auth()->user()->ministrys->id)->get();
-    
+
     $user = User::where('id', $id->id)->first();
     return view('dashboard.user', compact('user', 'follow', 'people', 'users'));
  }

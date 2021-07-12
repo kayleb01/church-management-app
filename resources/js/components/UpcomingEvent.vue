@@ -1,5 +1,5 @@
 <template>
-<div class="col-md-6">                
+<div class="col-md-6">
     <div class="card">
         <div class="card-header with-border">
             <h3 class="card-title">Upcoming events in 30 days</h3> <span><a href="/events" class="pull-right link">View all</a></span>
@@ -8,8 +8,7 @@
             <span >
                 <div v-if="events !=''">
                     <div class="callout callout-warning" v-for="event in events" :key="event.id">
-                        <h5><b><a href="#" class="link text-info">{{createDate(event.date)}}</a></b></h5>
-
+                        <h5><b><a href="#" class="link text-info">{{createDate(event.event_date)}}</a></b></h5>
                         <p class="font-weight-bold">{{event.title}}.</p>
                     </div>
                 </div>
@@ -18,9 +17,6 @@
         </div>
     </div>
 </div>
-
-
-
 </template>
 <script>
 import moment from 'moment';
@@ -36,7 +32,7 @@ export default{
     },
     methods:{
         createDate(date){
-            return moment(date).format('MMM Do YY')
+            return moment(date).format('MMM Do YYYY')
         },
 
         fetch(){
