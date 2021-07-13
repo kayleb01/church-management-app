@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'gender', 'country', 'ministry', 'firstName', 'lastName', 'mobile_number', 'email', 'password', 'role',
+        'gender', 'country', 'ministry', 'firstName', 'lastName', 'mobile_number', 'email', 'password', 'role', 'confirmed',
     ];
 
     /**
@@ -51,5 +51,10 @@ class User extends Authenticatable
     public function ministrys()
     {
         return $this->belongsTo('App\Ministry', 'ministry');
+    }
+
+    public function isAdmin($user)
+    {
+       return $user == 1 ? true : false;
     }
 }

@@ -1,6 +1,6 @@
 <template name="Adduser">
     <div>
-        <FlashMessage></FlashMessage>
+
           <h3><i class="fa fa-dashboard mt-3"></i>User</h3>
           <div class="dropdown">
 				<button class="btn btn-outline-secondary rounded dropdown-toggle mb-2" type="button" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -10,8 +10,8 @@
 					 <a href="#" class="dropdown-item" @click.prevent="newModal">Add </a>
 				</div>
 		</div>
-       
-      
+
+
         <!-- <div class="dropdown">
 				<button class="btn btn-outline-secondary dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Bulk Action
@@ -22,6 +22,7 @@
 				</div>
 		</div> -->
 			<div class="card">
+                <FlashMessage></FlashMessage>
               <div class="card-body table-responsive p-0" style="height: 600px;">
                   <table v-if="user.confirmed != 1" class="table table-striped">
                        <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
@@ -40,7 +41,7 @@
                     </tr>
                   </thead>
                   <tbody >
-                    
+
                     <tr v-for="user in users" :key="user.id">
 						<td> <input type="checkbox" name="mark" id="mark"></td>
                       <td>
@@ -64,21 +65,21 @@
                            <div class="dropdown">
                                 <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="bulk"> 
+                                <div class="dropdown-menu" aria-labelledby="bulk">
                                     <button class="dropdown-item" @click="editModal(user)">Edit</button>
                                     <button class="dropdown-item text-danger" @click.prevent="destroy(user.id)">Delete</button>
-                                    
+
                                 </div>
                            </div>
                          </td>
 					</tr>
-				 
+
                   </tbody>
-                 
+
                 </table>
               </div>
 			</div>
-           
+
         <div class="modal slide" id="add-user">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -160,7 +161,7 @@
                 </div>
             </div>
         </div>
-    
+
 </div>
 </template>
 <script>
@@ -178,7 +179,7 @@ export default{
                 role: '',
                 email:'',
                 userEmail:'',
-                firstname: '',
+                firstName: '',
                 lastName: '',
                 mobile_number:'',
                 password: '',
@@ -233,7 +234,7 @@ export default{
                 $('invite').modal('hide');
             })
         },
-        
+
         newModal(){
             this.form.reset();
             $('#add-user').modal('show');
@@ -262,14 +263,14 @@ export default{
 
             $('#add-user').modal('hide');
              this.fetch();
-                
+
             this.flashMessage.info({
             title: 'User',
             message: 'User added successfully!'
         });
                 this.loading = false;
         },
-        
+
         updateUser(user){
             this.loading = true;
             this.form.patch(`/admin/${this.form.id}/adduser`)
@@ -297,15 +298,15 @@ export default{
              if (confirm("Are you sure? cannot be undone")) {
                  axios
                 .delete("/user/" + id);
-                this.$emit("destroyed", id); 
+                this.$emit("destroyed", id);
                     this.flashMessage.info({
                         title: 'User Delete',
                         message: 'User deleted successfully!'
                     });
-              
+
                this.fetch();
              }
-            
+
         },
     }
 }

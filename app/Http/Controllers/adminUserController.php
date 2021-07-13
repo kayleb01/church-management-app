@@ -52,7 +52,7 @@ class adminUserController extends Controller
         return  User::create([
             'email'     => request('email'),
             'password'  => Hash::make(request('password')),
-            'firstname' => request('firstname'),
+            'firstName' => request('firstname'),
             'lastName'  => request('lastName'),
             'mobile_number' => request('mobile_number'),
             'role'          => request('role'),
@@ -122,6 +122,17 @@ class adminUserController extends Controller
  {
      return "Okay";
  }
+ public function mark($id)
+ {
+     $user = User::where('id', $id)->first();
+     $user->update([
+             "confirmed" => "1"
+             ]);
 
+    if ($user) {
+        return response()->json(['status' => 'User Confirmed', 'user' => $user]);
+    }
+    return response(['status' => 'User Confirmed']);
+ }
 
 }

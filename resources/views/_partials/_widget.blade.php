@@ -1,5 +1,5 @@
  <!-- Main Sidebar Container -->
- <aside class="main-sidebar bg-light text-black elevation-0">
+ <aside class="main-sidebar bg-light text-black elevation-1">
     <!-- Brand Logo -->
 
     <a href="/" class="brand-link " style="background-color:#dd6b39">
@@ -87,14 +87,14 @@
               </p>
             </a>
           </li>
-          <!-- <li class="nav-item">
+          {{-- <!-- <li class="nav-item">
             <a href="/forms" class="nav-link">
               <i class="nav-icon fa fa-users"></i>
               <p>
                 Forms
               </p>
             </a>
-          </li> -->
+          </li> --> --}}
           </li>
           <li class="nav-item">
             <a href="/report" class="nav-link">

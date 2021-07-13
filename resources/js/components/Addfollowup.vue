@@ -1,64 +1,62 @@
 <template name="Addfollowup">
     <div>
+         <FlashMessage></FlashMessage>
         <h3><i class="fa fa-dashboard"></i> Follow up</h3>
     		<button  class="btn btn-secondary rounded-pill py-2 px-4 m-2"  @click.prevent="showModal()">Add follow</button>
             	<section class="content mt-4">
-                    <FlashMessage></FlashMessage>
-			<div class="card">
-              <div class="card-body table-responsive p-0" style="height: 300px;">
-                   <table v-if="user.confirmed != 1" class="table table-striped">
-                       <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
-                  </table>
-                <table class="table table-head-fixed text-nowrap" v-else>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Responsible</th>
-                      <th>Date</th>
-                      <th>Notes</th>
-					  <th>Action</th>
-					  <th>Type</th>
-					  <th>Status</th>
-					  <th></th>
-					  <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for=" follow in follows" :key="follow.id">
-                      <td><a href="#"> {{follow.people.first_name}} {{follow.people.last_name}}</a></td>
-                      <td><a href="#">{{follow.user.firstname}} {{follow.user.lastName}}</a></td>
-                      <td>{{follow.date}}</td>
-                      <td>{{follow.note}}</td>
-					  <td>{{follow.action.action}}</td>
-					  <td>{{follow.type}}</td>
-					  <td>
-                          <span v-if="follow.status == 1" class="bg-success px-2 py-1 rounded">Done</span>
-                          <span v-else class="bg-warning px-2 py-1 rounded">Pending</span>
-                        </td>
-					  <td v-if="follow.status != 1"><button class="border border-secondary" @click="markdone(follow.id)"> <i class="fa fa-check"></i></button></td>
-					  <td>
-                            <div class="dropdown">
-                                <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="follow-drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="follow-drop"> 
-                                    <button class="dropdown-item" @click.prevent="editModal(follow)">Edit</button>
-                                    <button class="dropdown-item text-danger" @click.prevent="destroy(follow.id)">Delete</button>
-                                    
+                    <div class="card">
+                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                        <table v-if="user.confirmed != 1" class="table table-striped">
+                            <tbody class="text-center"> <tr><td> <h3> You've not been confirmed by the Admin yet!</h3> </td></tr></tbody>
+                        </table>
+                        <table class="table table-head-fixed text-nowrap" v-else>
+                        <thead>
+                            <tr>
+                            <th>Name</th>
+                            <th>Responsible</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                            <th>Action</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for=" follow in follows" :key="follow.id">
+                            <td><a :href="'/people/'+follow.people.id"> {{follow.people.first_name}} {{follow.people.last_name}}</a></td>
+                            <td><a :href="'/u/'+follow.user.id">{{follow.user.firstName}} {{follow.user.lastName}}</a></td>
+                            <td>{{follow.date}}</td>
+                            <td>{{follow.note}}</td>
+                            <td>{{follow.action.action}}</td>
+                            <td>{{follow.type}}</td>
+                            <td>
+                                <span v-if="follow.status == 1" class="bg-success px-2 py-1 rounded">Done</span>
+                                <span v-else class="bg-warning px-2 py-1 rounded">Pending</span>
+                                </td>
+                            <td v-if="follow.status != 1"><button class="border border-secondary" @click="markdone(follow.id)"> <i class="fa fa-check"></i></button></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="follow-drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="follow-drop">
+                                        <button class="dropdown-item" @click.prevent="editModal(follow)">Edit</button>
+                                        <button class="dropdown-item text-danger" @click.prevent="destroy(follow.id)">Delete</button>
+                                    </div>
                                 </div>
-                            </div>
-                    </td>
-					</tr>
-					
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>            
-	</section>
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+	            </section>
         <div class="modal slide" id="add-followup">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">  
+                    <div class="modal-header">
                         <h4 class="modal-title" v-if="!editmode">Add Follow up</h4>
                         <h4 class="modal-title" v-if="editmode">Update Follow up</h4>
                         <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
@@ -69,7 +67,7 @@
                         <section class="content">
                             <div class="panel">
                                 <div class="panel-body padding">
-                                    <form class="form-horizontal" @submit.prevent="editmode ? updateFollow() :addfollow()">
+                                    <form class="form-horizontal" @submit.prevent="editmode ? updateFollow() : addfollow()">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="people">People<i class="text-danger">*</i></label>
                                         <div class="">
@@ -111,7 +109,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="to">To <i class="text-danger"></i></label>
                                         <div class="">
-                                            <input type="time" name="to" class="form-control" required v-model="form.to"> 
+                                            <input type="time" name="to" class="form-control" required v-model="form.to">
                                         </div>
                                         </div>
                                         <div class="form-group">
@@ -119,7 +117,7 @@
                                             <div>
                                                 <select name="action_id" id="action" required v-model="form.action_id">
                                                     <option :value="action.id" v-for="action in actons" :key="action.id">{{action.action}}</option>
-                                                </select> 
+                                                </select>
                                                 <a href="#" @click.prevent="actions" class="btn btn-flat"><i class="fa fa-cog"></i></a>
                                             </div>
                                         </div>
@@ -132,7 +130,7 @@
                                             <div class="">
                                                 <textarea name="note" id="" cols="20" rows="5" class="form-control"  v-model="form.note"></textarea>
                                             </div>
-                                        </div>               
+                                        </div>
                                         <div class="clearfix"></div>
                                         <div class="form-group" style="padding: 10px;">
                                             <button type="submit" class="btn btn-secondary rounded-pill btn-block" :class="loading ? 'loader' : ''" :disabled="loading" >Add</button>
@@ -189,7 +187,7 @@ data(){
                note:'',
                title:''
             }),
-            
+
             editmode: false,
             follows:'',
             feedback: "",
@@ -229,14 +227,14 @@ data(){
                 this.getaction();
                 this.showIt();
                 })
-                
+
                 .catch(error => {
                     this.flashMessage.error ({
                        message: "An Unexpected error occured. Please try again."+ error,
                        });
                     this.loading = false;
                 });
-             
+
         },
 
         getaction(){
@@ -255,7 +253,7 @@ data(){
         showIt(){
              $('#actions').modal('hide');
             $('#add-followup').modal('show');
-           
+
         },
         updateFollow(){
             this.loading = true;
@@ -268,13 +266,11 @@ data(){
                  $('#add-followup').modal('hide');
                 this.fetch();
                 this.loading = false;
-            
             })
             .catch(error => {
                         this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                          this.loading = false;
                     });
-
         },
 
         editModal(data){
@@ -282,9 +278,11 @@ data(){
             this.form.reset();
             $('#add-followup').modal('show');
             this.form.fill(data);
+            this.editmode = false;
         },
+        cancelModal(){
 
-
+        },
         showModal() {
             this.form.reset();
             $('#add-followup').modal('show');
@@ -297,12 +295,9 @@ data(){
 
                 $('#add-followup').modal('hide');
                 this.fetch();
-
                 this.flashMessage.info({
                 title: 'Follow up Info',
                 message: 'Record created successfully!'
-
-
                     });
                 })
                 .catch(error => {
@@ -311,7 +306,7 @@ data(){
                        });
                     this.loading = false;
                 });
-             
+
         },
 
     fetch() {
@@ -326,11 +321,11 @@ data(){
              if (confirm("Are you sure? delete cannot be undone.")) {
                  axios
                 .delete("/followup/" + id);
-                this.$emit("destroyed", id); 
+                this.$emit("destroyed", id);
                     this.flashMessage.info({
                         message: 'Record deleted successfully!'
                     });
-              
+
                this.fetch();
              }
 
