@@ -45,14 +45,14 @@
                     <tr v-for="user in users" :key="user.id">
 						<td> <input type="checkbox" name="mark" id="mark"></td>
                       <td>
-						<a :href="'/u/'+ user.id">  <img src="/storage/face-1.jpg" alt="" class="image-circle">{{user.firstname}} {{user.lastName}}</a>
+						<a :href="'/u/'+ user.id">  <img src="/storage/img/avatar.png" :alt="user.firstname" class="image-circle">{{user.firstname}} {{user.lastName}}</a>
 					  </td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile_number}}</td>
                       <td>
-					    <span v-if="user.role == 1">Member</span>
+					    <span v-if="user.role == 1">Admin</span>
                          <span v-else-if="user.ministrys.user_id == user.id">Owner</span>
-                        <span  v-else-if="user.role == 2 || user.role == 3">Admin</span>
+                        <span  v-else-if="user.role == 2 || user.role == 3">Member</span>
 					  </td>
 					<td>
                           <span v-if="user.confirmed == 1" class="bg-success px-2 py-1 rounded ">Confirmed</span>

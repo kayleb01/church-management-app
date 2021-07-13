@@ -33,8 +33,8 @@
                     <div class="row no-gutter">
                 <div class="col-md-6">
 					<div class="d-flex justify-content-center">
-						
-						<img src="/storage/face-1.jpg'" alt="User Image" class="image-user">
+
+						<img src="/storage/img/avatar.png" alt="User Image" class="image-user">
 					</div>
 					<div class="d-flex justify-content-center mt-2">
 						<button class="btn btn-default rounded-circle m-1" id="btn-bell"><i class="fa fa-bell"></i></button>
@@ -72,7 +72,7 @@
 					<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless text-center">
-									<tr>	
+									<tr>
 										<td>
 											<b>Ministry</b><br>
 											<span>{{user.ministry}}</span>
@@ -92,20 +92,20 @@
 										<span>{{user.mobile_number}}</span>
 									</td>
 									<td>
-										<b>Home Phone</b> 
+										<b>Home Phone</b>
 										<br>
 										<span>____</span>
 									</td>
-									
+
 								</tr>
 								<tr>
 									<td>
 										<b>Email</b> <br>
-										<span>{{user.email}}</span>	
+										<span>{{user.email}}</span>
 									</td>
 									<td>
 										<b>Facebook</b> <br>
-										<span>___</span>	
+										<span>___</span>
 									</td>
 								</tr>
 							</table>
@@ -114,7 +114,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless">
-									<tr>	
+									<tr>
 										<td>
 											<b>Groups</b><br><br>
 											<span style="background-color:#ccc" class="rounded-pill px-2 py-1 mt-3">Not in group</span>
@@ -126,7 +126,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless">
-									<tr>	
+									<tr>
 										<td>
 											<b>Job Title</b><br>
 											<span>___</span>
@@ -146,7 +146,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless text-center">
-									<tr>	
+									<tr>
 										<td>
 											<b>Marital Status</b><br>
 											<span>Unknown</span>
@@ -158,7 +158,7 @@
 						<div class="card mt-2">
 							<div class="card-body">
 								<table class="table table-borderless text-center">
-									<tr>	
+									<tr>
 										<td>
 											<b>Join Date</b><br>
 											<span>{{humanTime(user.created_at)}}</span>
@@ -197,7 +197,7 @@
           </div>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-events" role="tabpanel" aria-labelledby="custom-tabs-three-events-tab">
-                     
+
                   </div>
                   <div class="tab-pane fade " id="custom-tabs-three-notes" role="tabpanel" aria-labelledby="custom-tabs-three-notes-tab">
                      <div class="card">
@@ -211,10 +211,10 @@
 											<div class="dropdown">
 												<button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												</button>
-												<div class="dropdown-menu" aria-labelledby="bulk"> 
+												<div class="dropdown-menu" aria-labelledby="bulk">
 													<button class="dropdown-item" @click="editModal(note)">Edit</button>
 													<button class="dropdown-item text-danger" @click.prevent="destroy(note.id)">Delete</button>
-													
+
 												</div>
 											</div>
 											<span class="text-muted">Created by <a href="#">{{note.user.firstname}} {{note.user.lastName}}</a> {{humanTime(note.created_at)	}}</span><br>
@@ -224,12 +224,12 @@
 									</tr>
 								</tbody>
 								</table>
-								
+
 						</div>
 					 </div>
                   </div>
 				  <div class="tab-pane fade " id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                    
+
                   </div>
 				  <div class="tab-pane fade " id="custom-tabs-three-followup" role="tabpanel" aria-labelledby="custom-tabs-three-followup-tab">
                     <div class="card">
@@ -243,10 +243,10 @@
 											<div class="dropdown">
 												<button class="btn btn-flat float-right dropdown-toggle mb-2" type="button" id="bulk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												</button>
-												<div class="dropdown-menu" aria-labelledby="bulk"> 
+												<div class="dropdown-menu" aria-labelledby="bulk">
 													<button class="dropdown-item" @click="editModal(followup)">Edit</button>
 													<button class="dropdown-item text-danger" @click.prevent="destroy(followup.id)">Delete</button>
-													
+
 												</div>
 											</div>
 											<span class="font-weight-bold">{{followup.date}}</span><br>
@@ -261,7 +261,7 @@
 									</tr>
 								</tbody>
 								</table>
-								
+
 						</div>
 					 </div>
                   </div>
@@ -286,7 +286,7 @@
 				  </div>
 				    <div class="card">
 						<div class="card-body">
-							
+
 							<form @submit.prevent="editmode ? updatenote(user.id) : addNote(user.id) ">
 								<div class="form-group">
 									<input type="hidden" name="user_id" :value="user.id">
@@ -298,7 +298,7 @@
 							</form>
 						</div>
 					</div>
-				  
+
 			  </div>
 		  </div>
 	  </div>
@@ -329,7 +329,7 @@
   		<div class="modal slide" id="add-follow">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">  
+                    <div class="modal-header">
                         <h4 class="modal-title">Add Follow up</h4>
                             <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -381,7 +381,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label" for="to">To <i class="text-danger"></i></label>
                                         <div class="">
-                                            <input type="time" name="to" class="form-control" required v-model="form.to"> 
+                                            <input type="time" name="to" class="form-control" required v-model="form.to">
                                         </div>
                                         </div>
                                         <div class="form-group">
@@ -389,7 +389,7 @@
                                             <div>
                                                 <select name="action_id" id="action" required v-model="form.action_id">
                                                     <option :value="action.id" v-for="action in actons" :key="action.id">{{action.action}}</option>
-                                                </select> 
+                                                </select>
                                                 <a href="#" @click.prevent="showIt" class="btn btn-flat"><i class="fa fa-cog"></i></a>
                                             </div>
                                         </div>
@@ -402,7 +402,7 @@
                                             <div class="">
                                                 <textarea name="note" id="" cols="20" rows="5" class="form-control"  v-model="form.note"></textarea>
                                             </div>
-                                        </div>               
+                                        </div>
                                         <div class="clearfix"></div>
                                         <div class="form-group" style="padding: 10px;">
                                             <button type="submit" class="btn btn-secondary rounded-pill btn-block" :class="loading ? 'loader' : ''" :disabled="loading" >Add</button>
@@ -448,7 +448,7 @@ export default{
 			created(){
 				this.getaction();
 			},
-	
+
 
     methods:{
 		 updatenote(user){
@@ -467,7 +467,7 @@ export default{
             .catch(error => {
                         this.flashMessage.error({error:"An Internal Error occured, please try again later"});
                     });
-           
+
 		},
 		  getaction(){
             axios.get('/actions').then(({data}) => this.actons = data).catch(error => {
@@ -503,7 +503,7 @@ export default{
                        });
                     this.loading = false;
                 });
-             
+
         },
 
 			showNotes(){
@@ -525,16 +525,16 @@ export default{
         url(id) {
             return "/notes/" + id +"";
 		},
-		
+
 		destroy(id){
 			if(confirm('Are you sure, this cannot be undone'))
            { axios
                 .delete("/note/" + id);
-                this.$emit("destroyed", id); 
+                this.$emit("destroyed", id);
                     this.flashMessage.success({
                         message: 'Note deleted successfully!'
                     });
-              
+
 			   this.fetch();
 			   }
 		},
@@ -551,14 +551,14 @@ export default{
                $('#actions').modal('hide');
             $('#add-follow').modal('show');
                 })
-                
+
                 .catch(error => {
                     this.flashMessage.error ({
                        message: "An Unexpected error occured. Please try again."+ error,
                        });
                     this.loading = false;
                 });
-             
+
 		},
 		 showIt(){
 			  $('#add-follow').modal('hide');
@@ -568,7 +568,7 @@ export default{
 			  $('#add-follow').modal('show');
              $('#actions').modal('hide');
 		},
-		
+
 		addfollow() {
             this.loading = true;
              this.form.post("/followup/add")
@@ -590,7 +590,7 @@ export default{
                        });
                     this.loading = false;
                 });
-             
+
         },
     }
 

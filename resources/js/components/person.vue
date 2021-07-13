@@ -33,7 +33,7 @@
                     <div class="row no-gutter">
                 <div class="col-md-6">
 					<div class="d-flex justify-content-center">
-						<img src="/storage/face-1.jpg'" alt="User Image" class="image-user">
+						<img src="/storage/img/avatar.png" alt="User Image" class="image-user">
 					</div>
 					<div class="d-flex justify-content-center mt-2">
 						<button class="btn btn-default rounded-circle m-1" id="btn-bell"><i class="fa fa-bell"></i></button>

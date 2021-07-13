@@ -80319,7 +80319,10 @@ var render = function() {
                             _c("a", { attrs: { href: "/u/" + user.id } }, [
                               _c("img", {
                                 staticClass: "image-circle",
-                                attrs: { src: "/storage/face-1.jpg", alt: "" }
+                                attrs: {
+                                  src: "/storage/img/avatar.png",
+                                  alt: user.firstname
+                                }
                               }),
                               _vm._v(
                                 _vm._s(user.firstname) +
@@ -80335,11 +80338,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [
                             user.role == 1
-                              ? _c("span", [_vm._v("Member")])
+                              ? _c("span", [_vm._v("Admin")])
                               : user.ministrys.user_id == user.id
                               ? _c("span", [_vm._v("Owner")])
                               : user.role == 2 || user.role == 3
-                              ? _c("span", [_vm._v("Admin")])
+                              ? _c("span", [_vm._v("Member")])
                               : _vm._e()
                           ]),
                           _vm._v(" "),
@@ -83900,7 +83903,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "d-flex justify-content-center" }, [
       _c("img", {
         staticClass: "image-user",
-        attrs: { src: "/storage/face-1.jpg'", alt: "User Image" }
+        attrs: { src: "/storage/img/avatar.png", alt: "User Image" }
       })
     ])
   },
@@ -86821,7 +86824,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "d-flex justify-content-center" }, [
       _c("img", {
         staticClass: "image-user",
-        attrs: { src: "/storage/face-1.jpg'", alt: "User Image" }
+        attrs: { src: "/storage/img/avatar.png", alt: "User Image" }
       })
     ])
   },
